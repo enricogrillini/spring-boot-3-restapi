@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+  title: Document API
+  description: "Rest API example: Document API"
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url: http://localhost:8082
+    description: Generated server url
+tags:
+  - name: Document
+    description: Rest API - Document CRUD
+  - name: Security
+    description: Rest API - Security
+paths:
+  /api/v1/document:
+    get:
+      tags:
+        - Document
+      summary: Ritorna la lista di documenti
+      operationId: getDocuments
+      responses:
+        "200":
+          description: Lista di documenti
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+    put:
+      tags:
+        - Document
+      summary: Aggiorna un documento
+      operationId: putDocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        "400":
+          description: Impossibile aggiornare il documento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+      security:
+        - bearerAuth: [ ]
+    post:
+      tags:
+        - Document
+      summary: Aggiunge un documento
+      operationId: postDocument
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        "400":
+          description: Impossibile inserire il documento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+      security:
+        - bearerAuth: [ ]
+  /api/v1/security/generate-token:
+    post:
+      tags:
+        - Security
+      summary: Genera un JWT
+      operationId: postGenerateToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+  /api/v1/document/{documentId}:
+    get:
+      tags:
+        - Document
+      summary: Ritorna un documento
+      operationId: getDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "400":
+          description: Errore nel reperimento del documento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        "200":
+          description: Documento trovato
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+    delete:
+      tags:
+        - Document
+      summary: Elimina un documento
+      operationId: deleteDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+        "400":
+          description: Impossibile cancellare il documento
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+      security:
+        - bearerAuth: [ ]
+components:
+  schemas:
+    Document:
+      required:
+        - description
+        - id
+        - name
+        - updateBy
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id
+          format: int32
+        name:
+          type: string
+          description: Name
+          example: Titolo
+        description:
+          type: string
+          description: Description
+          example: Descrizione
+        data:
+          type: string
+          format: date
+        updateBy:
+          type: string
+          description: Updated by
+          example: writer
+    ResponseMessage:
+      required:
+        - code
+        - description
+      type: object
+      properties:
+        code:
+          type: string
+          description: Codice risposta
+          example: OK
+        description:
+          type: string
+          description: Descrizione
+          example: Operazione eseguita correttamente
+        detail:
+          type: string
+          description: Descrizione dettagliata
+          example: Operazione eseguita correttamente senza avvertimenti
+    User:
+      required:
+        - audience
+        - customClaim
+        - issuer
+        - subject
+        - ttlMillis
+      type: object
+      properties:
+        issuer:
+          type: string
+          description: issuer
+          example: www.idm.com"
+        subject:
+          type: string
+          description: subject
+          example: reader-1"
+        audience:
+          type: string
+          description: audience
+          example: progetto-cookbook
+        customClaim:
+          type: string
+          description: customClaim
+          example: customClaim
+        ttlMillis:
+          type: integer
+          description: ttlMillis
+          format: int64
+          example: 3600000
+    Token:
+      type: object
+      properties:
+        jwtToken:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      in: header
+      scheme: bearer
+      bearerFormat: JWT
