@@ -19,6 +19,7 @@ import java.util.UUID;
 public class AccessLogFilter implements Filter {
 
     public static final String CORRELATION_ID_NAME = "X-Request-ID";
+    public static final String ACTUATOR = "/actuator";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -33,19 +34,26 @@ public class AccessLogFilter implements Filter {
 
         resp.setHeader(CORRELATION_ID_NAME, correlationId);
         try (MDC.MDCCloseable m = MDC.putCloseable(CORRELATION_ID_NAME, correlationId)) {
+            boolean doLog = req.getRequestURI() == null || !req.getRequestURI().startsWith(ACTUATOR);
+
             // Access Log IN
-            log.info("IN  - method: {}, URI: {}, protocol {}, host: {}", req.getMethod(), req.getRequestURI(), req.getProtocol(), req.getRemoteHost());
+            if (doLog) {
+                log.info("IN  - method: {}, URI: {}, protocol {}, host: {}", req.getMethod(), req.getRequestURI(), req.getProtocol(), req.getRemoteHost());
+            }
 
             chain.doFilter(request, response);
 
             // Access Log OUT
-            log.info("OUT - method: {}, URI: {}, protocol {}, host: {}, status {}, duration {}", req.getMethod(), req.getRequestURI(), req.getProtocol(), req.getRemoteHost(), resp.getStatus(), ChronoUnit.MILLIS.between(start, Instant.now()));
+            if (doLog) {
+                log.info("OUT - method: {}, URI: {}, protocol {}, host: {}, status {}, duration {}", req.getMethod(), req.getRequestURI(), req.getProtocol(), req.getRemoteHost(), resp.getStatus(), ChronoUnit.MILLIS.between(start, Instant.now()));
+            }
         }
     }
 
     private String generateUniqueCorrelationId() {
-        return new StringBuilder(46).append("generated:")
-                .append(UUID.randomUUID().toString())
+        return new StringBuilder().append("generated:")
+                .append(UUID.randomUUID())
                 .toString();
     }
+
 }
