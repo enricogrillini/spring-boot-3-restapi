@@ -64,3 +64,22 @@ mvn org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-pl
 mvn sonar:sonar "-Dsonar.projectKey=allitude-spring-boot-restapi" "-Dsonar.host.url=http://localhost:9000" "-Dsonar.login=67c3ece48b0c72e568899e4cb4fd5be3d61416da"
 ```
 
+## GraalVM
+
+### Approccio tradizionale
+```shell
+# package
+mvn clean package
+
+# Avvio app
+java -jar ./target/graalvmApp-1.0.0.jar
+```
+
+### Pacchettizzazione nativa
+```shell
+# package
+mvn clean native:compile -Pnative
+
+# Avvio app
+./target/spring-boot-rest-api
+````
