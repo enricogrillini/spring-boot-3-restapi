@@ -17,7 +17,9 @@
         <springdoc.version>2.0.4</springdoc.version>
 
         <!-- Open api -->
-        <openapitools.version>6.2.1</openapitools.version>
+        <openapitools.version>6.4.0</openapitools.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+
     </properties>
 
     <parent>
@@ -82,7 +84,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.3</version>
+            <version>${jackson-databind-nullable.version}</version>
         </dependency>
 
     </dependencies>
