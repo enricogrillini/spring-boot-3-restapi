@@ -13,18 +13,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
 
-        <lombok.version>1.18.24</lombok.version>
-        <springdoc.version>1.6.12</springdoc.version>
+        <lombok.version>1.18.26</lombok.version>
+        <springdoc.version>1.6.15</springdoc.version>
 
         <!-- Open api -->
         <openapitools.version>6.2.1</openapitools.version>
     </properties>
 
     <parent>
-
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-parent</artifactId>
-            <version>3.0.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.5</version>
     </parent>
 
     <dependencies>

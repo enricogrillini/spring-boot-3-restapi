@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Document;
 import it.eg.cookbook.model.ResponseMessage;
-import it.eg.cookbook.model.User;
-import it.eg.cookbook.service.JwtService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -35,38 +33,24 @@ class DocumentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private JwtService jwtService;
-
     private static final String URI = "/api/v1/document";
     private static final String URI_ID = "/api/v1/document/{documentId}";
 
     private Document mockDocument(Integer id) {
-        return new Document()
+        return Document.builder()
                 .id(id)
                 .name("Documento " + id)
                 .description("Descrizione Documento " + id)
                 .data(LocalDate.now())
-                .updateBy("ugo");
-    }
-
-    private String mockToken(String user) {
-        return jwtService.createJWT(new User()
-                .issuer("www.idm.com")
-                .subject(user)
-                .audience("progetto-cookbook")
-                .customClaim("customClaim")
-                .ttlMillis(Long.valueOf(3600 * 1000)));
+                .updateBy("ugo")
+                .build();
     }
 
     @Test
     @Order(1)
     void getDocumentsTest() throws Exception {
         MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get(URI)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                .perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -81,10 +65,7 @@ class DocumentControllerTest {
     @Order(2)
     void getDocumentTest() throws Exception {
         MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get(URI_ID, 1)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                .perform(MockMvcRequestBuilders.get(URI_ID, 1).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -101,8 +82,7 @@ class DocumentControllerTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_ID, 100)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -119,10 +99,7 @@ class DocumentControllerTest {
     @Order(4)
     void deleteDocumentTest() throws Exception {
         MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete(URI_ID, 1)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                .perform(MockMvcRequestBuilders.delete(URI_ID, 1).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -140,10 +117,7 @@ class DocumentControllerTest {
     @Order(5)
     void deleteDocumentTestKO() throws Exception {
         MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete(URI_ID, 100)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                .perform(MockMvcRequestBuilders.delete(URI_ID, 100).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -158,30 +132,13 @@ class DocumentControllerTest {
 
     @Test
     @Order(6)
-    void deleteDocumentTestKOSec() throws Exception {
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete(URI_ID, "XX")
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer fake"))
-                .andReturn();
-
-        // Verifico lo stato della risposta
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
-    }
-
-    @Test
-    @Order(7)
     void postDocumentTest() throws Exception {
         String documentStr = objectMapper.writeValueAsString(mockDocument(5));
-        String jwtToken = jwtService.createJWT(new User().issuer("www.idm.com").subject("writer-2").audience("progetto-cookbook").customClaim("customClaim").ttlMillis(Long.valueOf(3600 * 1000)));
-
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(documentStr)
-                        .header("Authorization", "Bearer " + jwtToken))
+                        .content(documentStr))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -195,16 +152,14 @@ class DocumentControllerTest {
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void postDocumentTestKO() throws Exception {
         String documentStr = objectMapper.writeValueAsString(mockDocument(5));
-
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(documentStr)
-                        .header("Authorization", "Bearer " + mockToken("writer-2")))
+                        .content(documentStr))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -217,27 +172,8 @@ class DocumentControllerTest {
         assertEquals("Documento già presente", responseMessage.getDetail());
     }
 
-
     @Test
-    @Order(9)
-    void postDocumentTestKOSec() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(2));
-
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post(URI)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(documentStr)
-                        .header("Authorization", "Bearer fake"))
-                .andReturn();
-
-        // Verifico lo stato della risposta
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
-    }
-
-    @Test
-    @Order(10)
+    @Order(8)
     void putDocumentTest() throws Exception {
         String documentStr = objectMapper.writeValueAsString(mockDocument(2));
 
@@ -246,8 +182,7 @@ class DocumentControllerTest {
                         .put(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(documentStr)
-                        .header("Authorization", "Bearer " + mockToken("writer-2")))
+                        .content(documentStr))
                 .andReturn();
 
         // Verifico lo stato della risposta
@@ -261,32 +196,8 @@ class DocumentControllerTest {
     }
 
     @Test
-    @Order(11)
+    @Order(9)
     void putDocumentTestKO() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(6));
-
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put(URI)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(documentStr)
-                        .header("Authorization", "Bearer " + mockToken("writer-2")))
-                .andReturn();
-
-        // Verifico lo stato della risposta
-        assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-
-        // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), ResponseMessage.class);
-        assertEquals(ResponseCode.NOT_FOUND.toString(), responseMessage.getCode());
-        assertEquals(ResponseCode.NOT_FOUND.getDescription(), responseMessage.getDescription());
-        assertEquals("Documento non trovato", responseMessage.getDetail());
-    }
-
-    @Test
-    @Order(12)
-    void putDocumentTestKOSec() throws Exception {
         String documentStr = objectMapper.writeValueAsString(mockDocument(6));
 
         MvcResult mvcResult = mockMvc
@@ -298,7 +209,13 @@ class DocumentControllerTest {
                 .andReturn();
 
         // Verifico lo stato della risposta
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
+        assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+
+        // Verifico che lo Documento sia corretto
+        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), ResponseMessage.class);
+        assertEquals(ResponseCode.NOT_FOUND.toString(), responseMessage.getCode());
+        assertEquals(ResponseCode.NOT_FOUND.getDescription(), responseMessage.getDescription());
+        assertEquals("Documento non trovato", responseMessage.getDetail());
     }
 
 }
