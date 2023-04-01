@@ -14,7 +14,7 @@
         <java.version>17</java.version>
 
         <lombok.version>1.18.26</lombok.version>
-        <springdoc.version>1.6.15</springdoc.version>
+        <springdoc.version>2.0.4</springdoc.version>
 
         <!-- Open api -->
         <openapitools.version>6.2.1</openapitools.version>
@@ -51,12 +51,7 @@
         <!-- SpringDoc -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
 

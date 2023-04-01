@@ -1,6 +1,5 @@
 package it.eg.cookbook.service;
 
-
 import it.eg.cookbook.model.Document;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ public class DocumentServices implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         map = new LinkedHashMap<>();
-
 
         save(new Document().id(1).name("Contratto").description("Contratto tra le parti per sottoscrizione conto corrente").data(LocalDate.now()).updateBy("Paolo Rossi"));
         save(new Document().id(2).name("Recesso").description("Norme per il recesso").data(LocalDate.now()).updateBy("Mario Rossi"));

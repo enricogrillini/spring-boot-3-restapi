@@ -17,6 +17,5 @@ public class SwaggerConfig {
     GroupedOpenApi documentGroup() {
         return GroupedOpenApi.builder().group("document")
                 .pathsToMatch("/api/v1/document/**").build();
-
     }
 }

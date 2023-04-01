@@ -1,6 +1,5 @@
 package it.eg.cookbook.service;
 
-
 import it.eg.cookbook.model.Document;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;

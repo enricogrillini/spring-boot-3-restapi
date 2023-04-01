@@ -25,7 +25,6 @@ import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Date;
 
-
 @Component
 @Slf4j
 public class JwtService implements InitializingBean {

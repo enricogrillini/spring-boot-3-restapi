@@ -1,6 +1,5 @@
 package it.eg.cookbook.controller;
 
-
 import it.eg.cookbook.model.Token;
 import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.JwtService;
