@@ -1,0 +1,40 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:13.6
+    restart: always
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "5"
+
+  rest-api:
+    image: eclipse-temurin:11.0.15_10-jdk
+    extra_hosts:
+      - "host.docker.internal:host-gateway"     # Necessario su Linux, facoltativo su macOS e Windows
+    command: bash -c "cp /tmp/*.jar /opt/spring-boot-rest-api.jar && sleep 3 && java -Xms500M -Xmx1000M -jar /opt/spring-boot-rest-api.jar"
+    environment:
+      DB_URL: "jdbc:postgresql://postgres:5432/postgres?currentSchema=cookbook"
+      DB_USER: "cookbook"
+      DB_PASSWORD: "cookbook"
+    volumes:
+      - "../target:/tmp"
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8082"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "5"
+

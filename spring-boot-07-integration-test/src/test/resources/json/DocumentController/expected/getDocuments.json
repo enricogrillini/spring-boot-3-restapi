@@ -1,0 +1,19 @@
+[ {
+  "id" : 1,
+  "name" : "doc-1",
+  "description" : "Contratto vita",
+  "data" : "2022-01-01",
+  "updateBy" : "Ugo"
+}, {
+  "id" : 2,
+  "name" : "doc-2",
+  "description" : "Allegato 1 - Contratto vita",
+  "data" : "2022-01-01",
+  "updateBy" : "Ugo"
+}, {
+  "id" : 3,
+  "name" : "doc-3",
+  "description" : "Allegato 3 - Contratto vita",
+  "data" : "2022-01-01",
+  "updateBy" : "Ugo"
+} ]
