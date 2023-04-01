@@ -22,11 +22,11 @@ Tra gli aspetti indirizzati:
    - Swagger definizione multipla (document/security)
   - **06**
     - **Approccio contract first**
- - 07
-   - JPA
-   - Caching - Caffeine
- - 08
-   - Integration test
+  - 07
+    - JPA
+    - Integration test
+  - 08
+    - Caching - Caffeine
 
 
 ## Link principali

@@ -3,30 +3,30 @@
 Servizio avanzato per l'esposizione di CRUD rest documentate con Swagger.
 
 Tra gli aspetti indirizzati:
-- **01**
-    - **Servizio rest Base**
-- 02
-    - Utilizzo di Lombok
-    - ObjectMapper
-    - Gestione errori (Error Handler)
-    - Logging
-    - Unit Test
-- 03
-    - Correlation ID
-    - Access Log
-    - Actuator
-- 04
-    - Swagger
-- 05
-    - Gestione Sicurezza tramite JWT
-    - Swagger definizione multipla (document/security)
-- 06
-    - Approccio contract first
-- 07
-    - JPA
-    - Caching - Caffeine
-- 08
-    - Integration test
+ - **01**
+   - **Servizio rest Base**
+ - 02
+   - Utilizzo di Lombok
+   - ObjectMapper
+   - Gestione errori (Error Handler)
+   - Logging
+   - Unit Test
+ - 03  
+   - Correlation ID
+   - Access Log
+   - Actuator 
+ - 04
+   - Swagger
+ - 05
+   - Gestione Sicurezza tramite JWT
+   - Swagger definizione multipla (document/security)
+ - 06
+   - Approccio contract first
+ - 07
+   - JPA
+   - Integration test
+ - 08
+   - Caching - Caffeine
 
 
 ## Link principali
