@@ -1,6 +1,6 @@
 package it.eg.cookbook.config;
 
-import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +17,5 @@ public class SwaggerConfig {
     GroupedOpenApi documentGroup() {
         return GroupedOpenApi.builder().group("document")
                 .pathsToMatch("/api/v1/document/**").build();
-
     }
 }

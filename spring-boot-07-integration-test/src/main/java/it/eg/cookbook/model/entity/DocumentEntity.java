@@ -1,12 +1,10 @@
 package it.eg.cookbook.model.entity;
 
-
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-
 
 @Data
 @NoArgsConstructor

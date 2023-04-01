@@ -4,6 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import it.eg.cookbook.config.SecurityConfig;
 import it.eg.cookbook.service.JwtService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,10 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,26 +38,21 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        List<SimpleGrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority(SecurityConfig.RULE_ADMIN));
+        String token = request.getHeader(JwtService.TOKEN_HEADER);
+        if (token != null && token.startsWith(JwtService.TOKEN_PREFIX)) {
+            try {
+                Jws<Claims> parsedToken = jwtService.parseToken(token);
 
-        return new UsernamePasswordAuthenticationToken("admin", null, list);
-
-//        String token = request.getHeader(JwtService.TOKEN_HEADER);
-//        if (token != null && token.startsWith(JwtService.TOKEN_PREFIX)) {
-//            try {
-//                Jws<Claims> parsedToken = jwtService.parseToken(token);
-//
-//                Collection<? extends GrantedAuthority> authorities = getAuthorities(parsedToken);
-//                String username = parsedToken.getBody().getSubject();
-//                if (username != null && !username.isEmpty()) {
-//                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
-//                }
-//            } catch (Exception e) {
-//                return null;
-//            }
-//        }
-//        return null;
+                Collection<? extends GrantedAuthority> authorities = getAuthorities(parsedToken);
+                String username = parsedToken.getBody().getSubject();
+                if (username != null && !username.isEmpty()) {
+                    return new UsernamePasswordAuthenticationToken(username, null, authorities);
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        return null;
     }
 
     // Ritorna la lista delle GrantedAuthority - Sarà da implementare in funzione del contesto applicativo ad es. con chiamate LDAP
@@ -75,6 +70,5 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         return list;
     }
-
 
 }
