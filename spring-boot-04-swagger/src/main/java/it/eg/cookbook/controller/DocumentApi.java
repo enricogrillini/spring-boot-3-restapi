@@ -13,12 +13,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import it.eg.cookbook.model.Document;
 import it.eg.cookbook.model.ResponseMessage;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Validated
@@ -120,7 +120,6 @@ public interface DocumentApi {
     ResponseEntity<ResponseMessage> postDocument(
             @Parameter(name = "Document", description = "", required = true) @Valid @RequestBody Document document
     );
-
 
     /**
      * PUT /api/v1/document : Aggiorna un documento
