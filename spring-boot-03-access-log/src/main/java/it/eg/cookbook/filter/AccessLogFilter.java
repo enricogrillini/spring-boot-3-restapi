@@ -69,7 +69,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 
                 String payload = getMessagePayload(requestToUse);
                 if (payload != null) {
-                    log.info("    | req payload: {}", payload);
+                    log.debug("    | req payload: {}", payload);
                 }
             }
         }
