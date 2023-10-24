@@ -30,29 +30,29 @@ Tra gli aspetti indirizzati:
 
 
 ## Link principali
-- **Swagger UI** - http://localhost:8082/swagger-ui.html
-- **Actuator** - http://localhost:8082/actuator
+- **Swagger UI** - http://localhost:8080/swagger-ui.html
+- **Actuator** - http://localhost:8080/actuator
 - **Api doc**
-    - http://localhost:8082/v3/api-docs
-    - http://localhost:8082/v3/api-docs.yaml
+    - http://localhost:8080/v3/api-docs
+    - http://localhost:8080/v3/api-docs.yaml
 
 ## Curl per provare il servizio (su windows usare gitbash)
 
 ```shell
 # getDocuments 
-curl "http://localhost:8082/api/v1/document" -s
+curl "http://localhost:8080/api/v1/document" -s
 
 # getDocuments 
-curl "http://localhost:8082/api/v1/document/1" -s
+curl "http://localhost:8080/api/v1/document/1" -s
 
 # delete 
-curl -X DELETE "http://localhost:8082/api/v1/document/1" -s
+curl -X DELETE "http://localhost:8080/api/v1/document/1" -s
 
 # post
-curl -X POST "http://localhost:8082/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
+curl -X POST "http://localhost:8080/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
 
 # put
-curl -X PUT "http://localhost:8082/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
+curl -X PUT "http://localhost:8080/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
 ```
 
 ## Code quality
@@ -81,7 +81,7 @@ mvn sonar:sonar "-Dsonar.projectKey=allitude-spring-boot-restapi" "-Dsonar.host.
   - main
   
     ```properties
-    server.port=8082
+    server.port=8080
     
     app.version=@project.version@
     
@@ -90,7 +90,7 @@ mvn sonar:sonar "-Dsonar.projectKey=allitude-spring-boot-restapi" "-Dsonar.host.
   - test
   
     ```properties
-    server.port=8082
+    server.port=8080
     
     app.version=@project.version@
     
