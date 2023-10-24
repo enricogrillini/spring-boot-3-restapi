@@ -1,0 +1,22 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.8'
+services:
+
+  be:
+    image: eclipse-temurin:17.0.5_8-jdk
+    extra_hosts:
+      - "host.docker.internal:host-gateway"     # Necessario su Linux, facoltativo su macOS e Windows
+    ports:
+      - "8080:8080"
+    environment:
+      LANG: "it_IT.UTF-8"
+      LC_ALL: "it_IT.UTF-8"
+      TZ: "Europe/Rome"
+    command: bash -c "cp /tmp/spring-boot-rest-api*.jar /opt/spring-boot-rest-api.jar && sleep 3 && java -Xms500M -Xmx1000M -jar /opt/spring-boot-rest-api.jar"
+    volumes:
+      - "../target/:/tmp/"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "5"
