@@ -13,8 +13,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
 
-        <lombok.version>1.18.30</lombok.version>
         <springdoc.version>2.2.0</springdoc.version>
+        <lombok.version>1.18.30</lombok.version>
 
         <!-- Open api -->
         <openapitools.version>6.4.0</openapitools.version>
@@ -43,6 +43,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
