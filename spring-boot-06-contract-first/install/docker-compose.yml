@@ -8,11 +8,23 @@ services:
       - "host.docker.internal:host-gateway"     # Necessario su Linux, facoltativo su macOS e Windows
     ports:
       - "8080:8080"
+      - "3000:3000"
+      - "3001:3001"
+
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
     environment:
       LANG: "it_IT.UTF-8"
       LC_ALL: "it_IT.UTF-8"
       TZ: "Europe/Rome"
-    command: bash -c "cp /tmp/spring-boot-rest-api*.jar /opt/spring-boot-rest-api.jar && sleep 3 && java -Xms500M -Xmx1000M -jar /opt/spring-boot-rest-api.jar"
+    command: bash -c "cp /tmp/spring-boot-rest-api*.jar /opt/spring-boot-rest-api.jar && sleep 3 && java -Xms500M -Xmx1000M -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=3000 -Dcom.sun.management.jmxremote.rmi.port=3001 -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -jar /opt/spring-boot-rest-api.jar"
     volumes:
       - "../target/:/tmp/"
     logging:
