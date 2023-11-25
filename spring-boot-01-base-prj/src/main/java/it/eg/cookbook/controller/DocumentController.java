@@ -2,7 +2,7 @@ package it.eg.cookbook.controller;
 
 import it.eg.cookbook.model.Document;
 import it.eg.cookbook.model.ResponseCode;
-import it.eg.cookbook.model.ResponseMessage;
+import it.eg.cookbook.model.Message;
 import it.eg.cookbook.service.DocumentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/document")
+@RequestMapping("/document")
 public class DocumentController {
 
     @Autowired
@@ -43,9 +43,9 @@ public class DocumentController {
      * @return
      */
     @DeleteMapping(path = "/{documentId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage deleteDocument(@PathVariable Integer documentId) {
+    public Message deleteDocument(@PathVariable Integer documentId) {
         documentServices.delete(documentId);
-        return new ResponseMessage(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento eliminato correttamente");
+        return new Message(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento eliminato correttamente");
     }
 
 
@@ -55,9 +55,9 @@ public class DocumentController {
      * @return
      */
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage postDocument(@RequestBody Document document) {
+    public Message postDocument(@RequestBody Document document) {
         documentServices.save(document);
-        return new ResponseMessage(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento creato correttamente");
+        return new Message(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento creato correttamente");
 
     }
 
@@ -67,9 +67,9 @@ public class DocumentController {
      * @return
      */
     @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage putDocument(@RequestBody Document document) {
+    public Message putDocument(@RequestBody Document document) {
         documentServices.save(document);
-        return new ResponseMessage(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento aggiornato correttamente");
+        return new Message(ResponseCode.OK.toString(), ResponseCode.OK.getDescription(), "Documento aggiornato correttamente");
     }
 }
 

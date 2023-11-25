@@ -1,12 +1,12 @@
 package it.eg.cookbook.model;
 
-public class ResponseMessage {
+public class Message {
 
     private String code;
     private String description;
     private String detail;
 
-    public ResponseMessage(String code, String description, String detail) {
+    public Message(String code, String description, String detail) {
         this.code = code;
         this.description = description;
         this.detail = detail;

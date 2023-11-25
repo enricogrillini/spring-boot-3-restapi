@@ -41,19 +41,19 @@ Tra gli aspetti indirizzati:
 
 ```shell
 # getDocuments 
-curl "http://localhost:8082/api/v1/document" -s
+curl "http://localhost:8082/document" -s
 
 # getDocuments 
-curl "http://localhost:8082/api/v1/document/1" -s
+curl "http://localhost:8082/document/1" -s
 
 # delete 
-curl -X DELETE "http://localhost:8082/api/v1/document/1" -s
+curl -X DELETE "http://localhost:8082/document/1" -s
 
 # post
-curl -X POST "http://localhost:8082/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
+curl -X POST "http://localhost:8082/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
 
 # put
-curl -X PUT "http://localhost:8082/api/v1/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
+curl -X PUT "http://localhost:8082/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
 ```
 
 ## Code quality
