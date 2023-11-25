@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jws;
 import it.eg.cookbook.model.Token;
 import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.JwtService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 class SecurityTest {
 
     @Autowired

@@ -28,7 +28,8 @@ public class SecurityConfig {
             "/actuator/**",
     };
 
-    public static final String BASE_URI = "/api/v1/document/**";
+    public static final String DOCUMENT_URI = "/api/v1/document/**";
+    public static final String SECURITY_URI = "/security/generate-token";
 
     public static final String RULE_READER = "READER";
     public static final String RULE_WRITER = "WRITER";
@@ -42,12 +43,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET, BASE_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.PUT, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.POST, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, BASE_URI).hasAuthority(RULE_ADMIN)
+                        .requestMatchers(HttpMethod.GET, DOCUMENT_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, DOCUMENT_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.POST, DOCUMENT_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, DOCUMENT_URI).hasAuthority(RULE_ADMIN)
+                        .requestMatchers(HttpMethod.POST, SECURITY_URI).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
-                        .requestMatchers("/api/v1/security/generate-token").permitAll()
                         //All
                         .anyRequest().authenticated()
                 )
