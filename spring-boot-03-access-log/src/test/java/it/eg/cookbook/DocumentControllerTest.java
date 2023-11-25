@@ -166,7 +166,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), Message.class);
         assertEquals(ResponseCode.BUSINESS_ERROR.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.BUSINESS_ERROR.getDescription(), responseMessage.getDescription());
         assertEquals("Documento già presente", responseMessage.getDetail());
