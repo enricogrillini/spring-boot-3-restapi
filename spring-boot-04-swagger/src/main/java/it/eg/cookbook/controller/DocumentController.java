@@ -3,7 +3,7 @@ package it.eg.cookbook.controller;
 import it.eg.cookbook.error.ApiException;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Document;
-import it.eg.cookbook.model.ResponseMessage;
+import it.eg.cookbook.model.Message;
 import it.eg.cookbook.service.DocumentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class DocumentController implements DocumentApi {
     private DocumentServices documentServices;
 
     @Override
-    public ResponseEntity<ResponseMessage> deleteDocument(Integer documentId) {
+    public ResponseEntity<Message> deleteDocument(Integer documentId) {
         if (documentServices.getDocument(documentId) != null) {
             documentServices.delete(documentId);
 
@@ -43,7 +43,7 @@ public class DocumentController implements DocumentApi {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> postDocument(Document document) {
+    public ResponseEntity<Message> postDocument(Document document) {
         if (documentServices.getDocument(document.getId()) == null) {
             documentServices.save(document);
             return ResponseEntity.ok(ResponseCode.OK.getResponseMessage("Documento inserito correttamente"));
@@ -54,7 +54,7 @@ public class DocumentController implements DocumentApi {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> putDocument(Document document) {
+    public ResponseEntity<Message> putDocument(Document document) {
         if (documentServices.getDocument(document.getId()) != null) {
             documentServices.save(document);
             return ResponseEntity.ok(ResponseCode.OK.getResponseMessage("Documento aggiornato correttamente"));

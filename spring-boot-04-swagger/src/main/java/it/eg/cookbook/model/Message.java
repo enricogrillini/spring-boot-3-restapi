@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-public class ResponseMessage {
+public class Message {
 
     @JsonProperty("code")
     private String code;
