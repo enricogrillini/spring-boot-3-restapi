@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,18 +37,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, BASE_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
-                .requestMatchers(HttpMethod.PUT, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                .requestMatchers(HttpMethod.POST, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                .requestMatchers(HttpMethod.DELETE, BASE_URI).hasAuthority(RULE_ADMIN)
-                .requestMatchers(WHITELIST).permitAll()
-                .requestMatchers("/api/v1/security/generate-token").permitAll()
-                //All
-                .anyRequest().authenticated()
-                .and()
+                .sessionManagement(s ->
+                        s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(a -> a
+                        .requestMatchers(HttpMethod.GET, BASE_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.POST, BASE_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, BASE_URI).hasAuthority(RULE_ADMIN)
+                        .requestMatchers(WHITELIST).permitAll()
+                        .requestMatchers("/api/v1/security/generate-token").permitAll()
+                        //All
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(new JwtAuthenticationTokenFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -3,19 +3,26 @@ info:
   title: Document API
   description: "Rest API example: Document API"
   version: 1.0.0-SNAPSHOT
+
 servers:
   - url: http://localhost:8082
     description: Generated server url
+
 tags:
   - name: Document
     description: Rest API - Document CRUD
   - name: Security
     description: Rest API - Security
+
+security:
+  - bearerAuth: [ ]
+
 paths:
-  /api/v1/document:
+  /document:
     get:
       tags:
         - Document
+      security: [ ]
       summary: Ritorna la lista di documenti
       operationId: getDocuments
       responses:
@@ -27,6 +34,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Document'
+
     put:
       tags:
         - Document
@@ -40,19 +48,10 @@ paths:
         required: true
       responses:
         "200":
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
+          $ref: '#/components/responses/MessageResponse'
         "400":
-          description: Impossibile aggiornare il documento
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
-      security:
-        - bearerAuth: [ ]
+          $ref: '#/components/responses/MessageResponse'
+
     post:
       tags:
         - Document
@@ -66,23 +65,57 @@ paths:
         required: true
       responses:
         "200":
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
+          $ref: '#/components/responses/MessageResponse'
         "400":
-          description: Impossibile inserire il documento
+          $ref: '#/components/responses/MessageResponse'
+
+  /document/{documentId}:
+    get:
+      tags:
+        - Document
+      security: [ ]
+      summary: Ritorna un documento
+      operationId: getDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: Documento trovato
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseMessage'
-      security:
-        - bearerAuth: [ ]
-  /api/v1/security/generate-token:
+                $ref: '#/components/schemas/Document'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+    delete:
+      tags:
+        - Document
+      summary: Elimina un documento
+      operationId: deleteDocument
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          $ref: '#/components/responses/MessageResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+  /security/generate-token:
     post:
       tags:
         - Security
+      security: [ ]
       summary: Genera un JWT
       operationId: postGenerateToken
       requestBody:
@@ -98,60 +131,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Token'
-  /api/v1/document/{documentId}:
-    get:
-      tags:
-        - Document
-      summary: Ritorna un documento
-      operationId: getDocument
-      parameters:
-        - name: documentId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "400":
-          description: Errore nel reperimento del documento
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
-        "200":
-          description: Documento trovato
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Document'
-    delete:
-      tags:
-        - Document
-      summary: Elimina un documento
-      operationId: deleteDocument
-      parameters:
-        - name: documentId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        "200":
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
-        "400":
-          description: Impossibile cancellare il documento
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseMessage'
-      security:
-        - bearerAuth: [ ]
+
 components:
+  responses:
+    MessageResponse:
+      description: Messaggio generico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Message'
+
   schemas:
     Document:
       required:
@@ -180,7 +169,8 @@ components:
           type: string
           description: Updated by
           example: writer
-    ResponseMessage:
+
+    Message:
       required:
         - code
         - description
@@ -198,6 +188,7 @@ components:
           type: string
           description: Descrizione dettagliata
           example: Operazione eseguita correttamente senza avvertimenti
+
     User:
       required:
         - audience
@@ -228,11 +219,13 @@ components:
           description: ttlMillis
           format: int64
           example: 3600000
+
     Token:
       type: object
       properties:
         jwtToken:
           type: string
+
   securitySchemes:
     bearerAuth:
       type: http
