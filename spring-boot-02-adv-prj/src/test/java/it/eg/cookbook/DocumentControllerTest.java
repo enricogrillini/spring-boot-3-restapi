@@ -3,7 +3,7 @@ package it.eg.cookbook;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Document;
-import it.eg.cookbook.model.ResponseMessage;
+import it.eg.cookbook.model.Message;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -89,7 +89,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Message.class);
         assertEquals(ResponseCode.NOT_FOUND.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.NOT_FOUND.getDescription(), responseMessage.getDescription());
         assertEquals("Documento non trovato", responseMessage.getDetail());
@@ -106,7 +106,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Message.class);
 
         assertEquals(ResponseCode.OK.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.OK.getDescription(), responseMessage.getDescription());
@@ -124,7 +124,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che il Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Message.class);
         assertEquals(ResponseCode.NOT_FOUND.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.NOT_FOUND.getDescription(), responseMessage.getDescription());
         assertEquals("Documento non trovato", responseMessage.getDetail());
@@ -145,7 +145,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Message.class);
         assertEquals(ResponseCode.OK.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.OK.getDescription(), responseMessage.getDescription());
         assertEquals("Documento inserito correttamente", responseMessage.getDetail());
@@ -166,7 +166,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), Message.class);
         assertEquals(ResponseCode.BUSINESS_ERROR.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.BUSINESS_ERROR.getDescription(), responseMessage.getDescription());
         assertEquals("Documento già presente", responseMessage.getDetail());
@@ -189,7 +189,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Message.class);
         assertEquals(ResponseCode.OK.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.OK.getDescription(), responseMessage.getDescription());
         assertEquals("Documento aggiornato correttamente", responseMessage.getDetail());
@@ -212,7 +212,7 @@ class DocumentControllerTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
 
         // Verifico che lo Documento sia corretto
-        ResponseMessage responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), ResponseMessage.class);
+        Message responseMessage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), Message.class);
         assertEquals(ResponseCode.NOT_FOUND.toString(), responseMessage.getCode());
         assertEquals(ResponseCode.NOT_FOUND.getDescription(), responseMessage.getDescription());
         assertEquals("Documento non trovato", responseMessage.getDetail());
