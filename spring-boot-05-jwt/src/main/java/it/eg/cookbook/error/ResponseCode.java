@@ -1,6 +1,6 @@
 package it.eg.cookbook.error;
 
-import it.eg.cookbook.model.ResponseMessage;
+import it.eg.cookbook.model.Message;
 import org.springframework.http.HttpStatus;
 
 
@@ -23,8 +23,8 @@ public enum ResponseCode {
         return httpStatus;
     }
 
-    public ResponseMessage getResponseMessage(String detail) {
-        return ResponseMessage.builder()
+    public Message getResponseMessage(String detail) {
+        return Message.builder()
                 .code(toString())
                 .description(getDescription())
                 .detail(detail)

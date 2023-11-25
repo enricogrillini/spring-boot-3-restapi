@@ -32,7 +32,7 @@ class SecurityTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private static final String URI = "/api/v1/security/generate-token";
+    private static final String URI = "/security/generate-token";
 
     @Test
     void postDocumentTestKOSec() throws Exception {
