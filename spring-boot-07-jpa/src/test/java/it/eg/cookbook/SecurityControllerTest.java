@@ -21,10 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SecurityTest {
-
-    @Autowired
-    ObjectMapper objectMapper;
+class SecurityControllerTest extends AbstractTest {
 
     @Autowired
     JwtService jwtService;
@@ -36,12 +33,7 @@ class SecurityTest {
 
     @Test
     void postDocumentTestKOSec() throws Exception {
-        String userStr = objectMapper.writeValueAsString(new User()
-                .issuer("www.idm.com")
-                .subject("reader")
-                .audience("progetto-cookbook")
-                .customClaim("customClaim")
-                .ttlMillis(Long.valueOf(3600 * 1000)));
+        String userStr = readFile("user.json");
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders

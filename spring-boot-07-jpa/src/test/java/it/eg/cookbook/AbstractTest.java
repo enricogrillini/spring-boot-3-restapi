@@ -44,7 +44,7 @@ public abstract class AbstractTest {
     }
 
     protected String readFile(String fileName) {
-        File file = new File(String.format("./src/test/resource/json/%s/%s", getTestClass(), fileName));
+        File file = new File(String.format("./src/test/resources/json/%s/%s", getTestClass(), fileName));
 
         return readFile(file);
     }
