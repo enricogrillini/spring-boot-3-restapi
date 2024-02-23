@@ -1,7 +1,9 @@
 package it.eg.cookbook.controller;
 
-import it.eg.cookbook.model.Document;
+import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.Message;
+import it.eg.cookbook.model.entity.DocumentoEntity;
+import it.eg.cookbook.model.mapper.DocumentoMapper;
 import it.eg.cookbook.repository.DocumentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DocumentoController implements DocumentoApi {
 
+    private final DocumentoMapper documentoMapper;
     private final DocumentoRepository documentServices;
 
     @Override
-    public ResponseEntity<Message> create(Document document) {
+    public ResponseEntity<Message> create(Documento document) {
         return null;
     }
 
@@ -27,17 +30,19 @@ public class DocumentoController implements DocumentoApi {
     }
 
     @Override
-    public ResponseEntity<List<Document>> find() {
+    public ResponseEntity<List<Documento>> find() {
+        Iterable<DocumentoEntity> list = documentServices.findAll();
+
+        return ResponseEntity.ok(documentoMapper.listEntityToApi(list));
+    }
+
+    @Override
+    public ResponseEntity<Documento> get(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Document> get(Long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Message> update(Document document) {
+    public ResponseEntity<Message> update(Documento document) {
         return null;
     }
 

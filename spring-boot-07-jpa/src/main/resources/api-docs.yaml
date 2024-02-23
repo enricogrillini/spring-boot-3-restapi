@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Document API
-  description: "Rest API example: Document API"
+  title: Documento API
+  description: "Rest API example: Documento API"
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -9,8 +9,8 @@ servers:
     description: Generated server url
 
 tags:
-  - name: Document
-    description: Rest API - Document CRUD
+  - name: Documento
+    description: Rest API - Documento CRUD
   - name: Security
     description: Rest API - Security
 
@@ -21,7 +21,7 @@ paths:
   /documento:
     get:
       tags:
-        - Document
+        - Documento
       security: [ ]
       summary: Ritorna la lista di documenti
       operationId: find
@@ -33,18 +33,18 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: '#/components/schemas/Documento'
 
     put:
       tags:
-        - Document
+        - Documento
       summary: Aggiorna un documento
       operationId: update
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Documento'
         required: true
       responses:
         "200":
@@ -54,14 +54,14 @@ paths:
 
     post:
       tags:
-        - Document
+        - Documento
       summary: Aggiunge un documento
       operationId: create
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Documento'
         required: true
       responses:
         "200":
@@ -72,7 +72,7 @@ paths:
   /documento/{id}:
     get:
       tags:
-        - Document
+        - Documento
       security: [ ]
       summary: Ritorna un documento
       operationId: get
@@ -89,13 +89,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Documento'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
     delete:
       tags:
-        - Document
+        - Documento
       summary: Elimina un documento
       operationId: delete
       parameters:
@@ -142,7 +142,7 @@ components:
             $ref: '#/components/schemas/Message'
 
   schemas:
-    Document:
+    Documento:
       required:
         - description
         - id
