@@ -1,4 +1,4 @@
-package it.eg.cookbook.model;
+package it.eg.cookbook.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

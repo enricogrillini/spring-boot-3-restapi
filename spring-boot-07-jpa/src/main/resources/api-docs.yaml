@@ -69,7 +69,7 @@ paths:
         "400":
           $ref: '#/components/responses/MessageResponse'
 
-  /document/{id}:
+  /documento/{id}:
     get:
       tags:
         - Document

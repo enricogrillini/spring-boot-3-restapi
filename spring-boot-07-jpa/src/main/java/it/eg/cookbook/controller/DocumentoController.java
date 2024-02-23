@@ -1,24 +1,25 @@
 package it.eg.cookbook.controller;
 
-import it.eg.cookbook.error.ApiException;
-import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Document;
 import it.eg.cookbook.model.Message;
 import it.eg.cookbook.repository.DocumentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class DocumentController implements DocumentApi {
+public class DocumentoController implements DocumentoApi {
 
     private final DocumentoRepository documentServices;
+
+    @Override
+    public ResponseEntity<Message> create(Document document) {
+        return null;
+    }
 
     @Override
     public ResponseEntity<Message> delete(Long id) {
@@ -26,7 +27,17 @@ public class DocumentController implements DocumentApi {
     }
 
     @Override
+    public ResponseEntity<List<Document>> find() {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<Document> get(Long id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Message> update(Document document) {
         return null;
     }
 
