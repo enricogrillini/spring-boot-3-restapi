@@ -35,23 +35,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Documento'
 
-    put:
-      tags:
-        - Documento
-      summary: Aggiorna un documento
-      operationId: update
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Documento'
-        required: true
-      responses:
-        "200":
-          $ref: '#/components/responses/MessageResponse'
-        "400":
-          $ref: '#/components/responses/MessageResponse'
-
     post:
       tags:
         - Documento
@@ -65,7 +48,7 @@ paths:
         required: true
       responses:
         "200":
-          $ref: '#/components/responses/MessageResponse'
+          $ref: '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -90,6 +73,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Documento'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+    put:
+      tags:
+        - Documento
+      summary: Aggiorna un documento
+      operationId: update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Id'
+          required: true
+          description: id soggetto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "200":
+          $ref: '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -134,6 +141,13 @@ paths:
 
 components:
   responses:
+    DocumentoResponse:
+      description: Messaggio generico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Documento'
+
     MessageResponse:
       description: Messaggio generico
       content:
@@ -144,10 +158,8 @@ components:
   schemas:
     Documento:
       required:
-        - description
-        - id
-        - name
-        - updateBy
+        - nome
+        - descrizione
       type: object
       properties:
         id:
@@ -230,6 +242,10 @@ components:
       type: string
       format: date
       example: '2022-04-22'
+
+    DateTime:
+      type: string
+      format: date-time
 
     Id:
       type: integer
