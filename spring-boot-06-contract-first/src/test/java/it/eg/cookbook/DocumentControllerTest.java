@@ -41,7 +41,7 @@ class DocumentControllerTest {
     private static final String URI = "/document";
     private static final String URI_ID = "/document/{documentId}";
 
-    private Document mockDocument(Integer id) {
+    private Document mockDocument(Long id) {
         return new Document()
                 .id(id)
                 .name("Documento " + id)
@@ -173,7 +173,7 @@ class DocumentControllerTest {
     @Test
     @Order(7)
     void postDocumentTest() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(5));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(5L));
         String jwtToken = jwtService.createJWT(new User().issuer("www.idm.com").subject("writer-2").audience("progetto-cookbook").customClaim("customClaim").ttlMillis(Long.valueOf(3600 * 1000)));
 
         MvcResult mvcResult = mockMvc
@@ -197,7 +197,7 @@ class DocumentControllerTest {
     @Test
     @Order(8)
     void postDocumentTestKO() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(5));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(5L));
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.post(URI)
@@ -221,7 +221,7 @@ class DocumentControllerTest {
     @Test
     @Order(9)
     void postDocumentTestKOSec() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(2));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(2L));
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -239,7 +239,7 @@ class DocumentControllerTest {
     @Test
     @Order(10)
     void putDocumentTest() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(2));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(2L));
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -263,7 +263,7 @@ class DocumentControllerTest {
     @Test
     @Order(11)
     void putDocumentTestKO() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(6));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(6L));
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -287,7 +287,7 @@ class DocumentControllerTest {
     @Test
     @Order(12)
     void putDocumentTestKOSec() throws Exception {
-        String documentStr = objectMapper.writeValueAsString(mockDocument(6));
+        String documentStr = objectMapper.writeValueAsString(mockDocument(6L));
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders

@@ -21,7 +21,7 @@ public class DocumentController implements DocumentApi {
     private final DocumentServices documentServices;
 
     @Override
-    public ResponseEntity<Message> deleteDocument(Integer documentId) {
+    public ResponseEntity<Message> deleteDocument(Long documentId) {
         if (documentServices.getDocument(documentId) != null) {
             documentServices.delete(documentId);
 
@@ -32,7 +32,7 @@ public class DocumentController implements DocumentApi {
     }
 
     @Override
-    public ResponseEntity<Document> getDocument(Integer documentId) {
+    public ResponseEntity<Document> getDocument(Long documentId) {
         if (documentServices.getDocument(documentId) != null) {
             return ResponseEntity.ok(documentServices.getDocument(documentId));
         } else {
@@ -60,7 +60,7 @@ public class DocumentController implements DocumentApi {
 
     @Override
     public ResponseEntity<Message> putDocument(Document document) {
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UsernamePasswordAuthenticationToken authenticationa = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         if (documentServices.getDocument(document.getId()) != null) {
             document.setUpdateBy(authentication.getName());
             documentServices.save(document);
