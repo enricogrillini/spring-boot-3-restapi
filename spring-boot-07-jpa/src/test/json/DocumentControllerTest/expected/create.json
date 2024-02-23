@@ -1,7 +1,6 @@
 {
   "id" : 4,
-  "nome" : "Documento null",
-  "descrizione" : "Descrizione Documento null",
-  "data" : "2024-02-23",
-  "updateBy" : "ugo"
+  "nome" : "New",
+  "descrizione" : "Nuovo documento",
+  "data" : "2024-01-01"
 }
