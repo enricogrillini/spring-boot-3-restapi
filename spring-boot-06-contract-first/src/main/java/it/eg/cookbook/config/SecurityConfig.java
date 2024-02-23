@@ -2,21 +2,24 @@ package it.eg.cookbook.config;
 
 import it.eg.cookbook.filter.JwtAuthenticationTokenFilter;
 import it.eg.cookbook.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityConfig {
 
-    @Autowired
-    JwtService jwtService;
+    private final JwtService jwtService;
 
     private static final String[] WHITELIST = {
             // -- swagger ui

@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.SecurityException;
 import it.eg.cookbook.error.ApiException;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,6 +28,7 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtService implements InitializingBean {
 
     public static final String TOKEN_HEADER = "Authorization";
@@ -38,11 +40,9 @@ public class JwtService implements InitializingBean {
     @Value("${cookbook.public_key_jwt}")
     Resource publicKeyResource;
 
-    @Autowired
-    private ResourceLoader resourceLoader;
+    private final ResourceLoader resourceLoader;
 
     private PrivateKey privateKey;
-
     private PublicKey publicKey;
 
     @Override

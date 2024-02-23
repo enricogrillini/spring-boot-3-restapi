@@ -5,6 +5,7 @@ import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Document;
 import it.eg.cookbook.model.Message;
 import it.eg.cookbook.service.DocumentServices;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DocumentController implements DocumentApi {
 
-    @Autowired
-    private DocumentServices documentServices;
+    private final DocumentServices documentServices;
 
     @Override
     public ResponseEntity<Message> deleteDocument(Integer documentId) {
