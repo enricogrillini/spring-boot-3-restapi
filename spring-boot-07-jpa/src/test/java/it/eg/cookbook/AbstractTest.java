@@ -20,17 +20,10 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * Classe comune per la gestione di Unit e Integration test.
- * Nota:
- * - gli Unit Test attivano il contesto spring per cui tutte le annotazioni Spring (ad es. @Value, @Autowired, etc.) sono attive
- * - gli Intetìgration Test NON attivano il contesto spring: l'applicazione gira su container
- */
 @Slf4j
 public abstract class AbstractTest {
 
     private TestInfo testInfo;
-
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -51,7 +44,7 @@ public abstract class AbstractTest {
     }
 
     protected String readFile(String fileName) {
-        File file = new File(String.format("./src/test/json/%s/%s", getTestClass(), fileName));
+        File file = new File(String.format("./src/test/resource/json/%s/%s", getTestClass(), fileName));
 
         return readFile(file);
     }
