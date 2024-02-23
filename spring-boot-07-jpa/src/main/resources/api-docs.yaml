@@ -18,13 +18,13 @@ security:
   - bearerAuth: [ ]
 
 paths:
-  /document:
+  /documento:
     get:
       tags:
         - Document
       security: [ ]
       summary: Ritorna la lista di documenti
-      operationId: getDocuments
+      operationId: find
       responses:
         "200":
           description: Lista di documenti
@@ -39,7 +39,7 @@ paths:
       tags:
         - Document
       summary: Aggiorna un documento
-      operationId: putDocument
+      operationId: update
       requestBody:
         content:
           application/json:
@@ -56,7 +56,7 @@ paths:
       tags:
         - Document
       summary: Aggiunge un documento
-      operationId: postDocument
+      operationId: create
       requestBody:
         content:
           application/json:
@@ -69,15 +69,15 @@ paths:
         "400":
           $ref: '#/components/responses/MessageResponse'
 
-  /document/{documentId}:
+  /document/{id}:
     get:
       tags:
         - Document
       security: [ ]
       summary: Ritorna un documento
-      operationId: getDocument
+      operationId: get
       parameters:
-        - name: documentId
+        - name: id
           in: path
           required: true
           schema:
@@ -97,9 +97,9 @@ paths:
       tags:
         - Document
       summary: Elimina un documento
-      operationId: deleteDocument
+      operationId: delete
       parameters:
-        - name: documentId
+        - name: id
           in: path
           required: true
           schema:
@@ -151,20 +151,17 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          description: Id
-          format: int64
-        name:
+          $ref: '#/components/schemas/Id'
+        nome:
           type: string
-          description: Name
+          description: Nome
           example: Titolo
-        description:
+        descrizione:
           type: string
-          description: Description
+          description: Descriptione
           example: Descrizione
         data:
-          type: string
-          format: date
+          $ref: '#/components/schemas/Date'
         updateBy:
           type: string
           description: Updated by
@@ -226,9 +223,20 @@ components:
         jwtToken:
           type: string
 
+    #############
+    # TIPI BASE #
+    #############
+    Date:
+      type: string
+      format: date
+      example: '2022-04-22'
+
+    Id:
+      type: integer
+      format: int64
+
   securitySchemes:
     bearerAuth:
       type: http
-      in: header
       scheme: bearer
       bearerFormat: JWT

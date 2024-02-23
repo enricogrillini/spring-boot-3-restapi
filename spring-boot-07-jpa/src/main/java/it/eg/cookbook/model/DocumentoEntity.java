@@ -17,8 +17,8 @@ public class DocumentoEntity {
     @SequenceGenerator(name = "seq_id_documento", allocationSize = 1)
     private Long id;
 
-    private String name;
-    private String description;
+    private String nome;
+    private String descrizione;
     private LocalDate data;
     private String updateBy;
 }

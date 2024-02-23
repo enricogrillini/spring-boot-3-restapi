@@ -7,4 +7,5 @@ mvn clean package
 
 # Run BE And follow
 cd install
-docker-compose up
+docker-compose up -d
+docker-compose logs
