@@ -29,7 +29,10 @@ public class DocumentoController implements DocumentoApi {
             throw new ApiException(ResponseCode.BUSINESS_ERROR, "L'id documento non deve essere indicato");
         }
 
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
         DocumentoEntity documentoEntity = documentoMapper.apiToEntity(documento);
+        documentoMapper.updateEntity(documentoEntity, documento, authentication.getName());
         documentServices.save(documentoEntity);
 
         return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));

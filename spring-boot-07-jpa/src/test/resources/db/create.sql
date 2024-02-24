@@ -14,6 +14,6 @@ create sequence seq_Id_Documento;
 
 Insert into Documento
        (Id,                          Nome,        Descrizione,                                                Data,         Update_By)
-Values (nextval('seq_Id_Documento'), 'Contratto', 'Contratto tra le parti per sottoscrizione conto corrente', '2024-01-01', 'writer-1'),
-       (nextval('seq_Id_Documento'), 'Recesso',  'Norme per il recesso',                                      '2024-01-01', 'writer-1'),
-       (nextval('seq_Id_Documento'), 'Appendice',  'Appendice al contratto di sottoscrizione',                '2024-01-01', 'writer-1');
+Values (nextval('seq_Id_Documento'), 'Contratto', 'Contratto tra le parti per sottoscrizione conto corrente', '2024-01-01', 'writer-a'),
+       (nextval('seq_Id_Documento'), 'Recesso',  'Norme per il recesso',                                      '2024-01-01', 'writer-a'),
+       (nextval('seq_Id_Documento'), 'Appendice',  'Appendice al contratto di sottoscrizione',                '2024-01-01', 'writer-a');

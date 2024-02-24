@@ -2,6 +2,8 @@ package it.eg.cookbook;
 
 import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.User;
+import it.eg.cookbook.model.entity.DocumentoEntity;
+import it.eg.cookbook.repository.DocumentoRepository;
 import it.eg.cookbook.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ class DocumentControllerTest extends AbstractTest {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private DocumentoRepository documentoRepository;
+
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";
 
@@ -55,6 +60,10 @@ class DocumentControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
+
+        Documento documento = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Documento.class);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(documento.getId());
+        assertEquals("writer-1", documentoEntity.getUpdateBy());
     }
 
     @Test
@@ -179,6 +188,9 @@ class DocumentControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/update.json", mvcResult.getResponse().getContentAsString());
+
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(2L);
+        assertEquals("writer-1", documentoEntity.getUpdateBy());
     }
 
     @Test

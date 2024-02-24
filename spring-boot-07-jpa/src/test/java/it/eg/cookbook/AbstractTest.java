@@ -38,7 +38,6 @@ public abstract class AbstractTest {
         return testInfo.getTestClass().get().getSimpleName();
     }
 
-
     protected <T> T objectFromFile(Class<T> objectClass, String fileName) throws JsonProcessingException {
         return objectMapper.readerFor(objectClass).readValue(readFile(fileName));
     }
