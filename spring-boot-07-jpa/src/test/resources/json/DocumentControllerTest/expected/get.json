@@ -2,6 +2,5 @@
   "id" : 1,
   "nome" : "Contratto",
   "descrizione" : "Contratto tra le parti per sottoscrizione conto corrente",
-  "data" : "2024-01-01",
-  "updateBy" : "writer-1"
+  "data" : "2024-01-01"
 }

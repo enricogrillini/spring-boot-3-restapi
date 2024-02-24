@@ -174,10 +174,6 @@ components:
           example: Descrizione
         data:
           $ref: '#/components/schemas/Date'
-        updateBy:
-          type: string
-          description: Updated by
-          example: writer
 
     Message:
       required:
