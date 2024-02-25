@@ -2,21 +2,24 @@ package it.eg.cookbook.config;
 
 import it.eg.cookbook.filter.JwtAuthenticationTokenFilter;
 import it.eg.cookbook.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityConfig {
 
-    @Autowired
-    JwtService jwtService;
+    private final JwtService jwtService;
 
     private static final String[] WHITELIST = {
             // -- swagger ui
@@ -28,7 +31,7 @@ public class SecurityConfig {
             "/actuator/**",
     };
 
-    public static final String DOCUMENT_URI = "/api/v1/document/**";
+    public static final String DOCUMENTO_URI = "/documento/**";
     public static final String SECURITY_URI = "/security/generate-token";
 
     public static final String RULE_READER = "READER";
@@ -43,10 +46,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET, DOCUMENT_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.PUT, DOCUMENT_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.POST, DOCUMENT_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, DOCUMENT_URI).hasAuthority(RULE_ADMIN)
+                        .requestMatchers(HttpMethod.GET, DOCUMENTO_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.POST, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, DOCUMENTO_URI).hasAuthority(RULE_ADMIN)
                         .requestMatchers(HttpMethod.POST, SECURITY_URI).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
                         //All

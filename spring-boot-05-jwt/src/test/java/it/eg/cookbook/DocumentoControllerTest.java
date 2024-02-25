@@ -1,10 +1,9 @@
 package it.eg.cookbook;
 
-import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.User;
-import it.eg.cookbook.model.entity.DocumentoEntity;
-import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.service.DocumentoService;
 import it.eg.cookbook.service.JwtService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,16 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-class DocumentControllerTest extends AbstractTest {
+class DocumentoControllerTest extends AbstractTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +27,7 @@ class DocumentControllerTest extends AbstractTest {
     private JwtService jwtService;
 
     @Autowired
-    private DocumentoRepository documentoRepository;
+    private DocumentoService documentoService;
 
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";
@@ -44,6 +39,11 @@ class DocumentControllerTest extends AbstractTest {
                 .audience("progetto-cookbook")
                 .customClaim("customClaim")
                 .ttlMillis(Long.valueOf(3600 * 1000)));
+    }
+
+    @BeforeEach
+    void init() {
+        documentoService.afterPropertiesSet();
     }
 
     @Test
@@ -60,10 +60,6 @@ class DocumentControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
-
-        Documento documento = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Documento.class);
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(documento.getId());
-        assertEquals("writer-1", documentoEntity.getUpdateBy());
     }
 
     @Test
@@ -188,9 +184,6 @@ class DocumentControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/update.json", mvcResult.getResponse().getContentAsString());
-
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(2L);
-        assertEquals("writer-1", documentoEntity.getUpdateBy());
     }
 
     @Test

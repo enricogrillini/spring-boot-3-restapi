@@ -1,10 +1,8 @@
 package it.eg.cookbook;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import it.eg.cookbook.model.Token;
-import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SecurityTest {
-
-    @Autowired
-    ObjectMapper objectMapper;
+class SecurityControllerTest extends AbstractTest {
 
     @Autowired
     JwtService jwtService;
@@ -36,13 +31,7 @@ class SecurityTest {
 
     @Test
     void postDocumentTestKOSec() throws Exception {
-        String userStr = objectMapper.writeValueAsString(User.builder()
-                .issuer("www.idm.com")
-                .subject("reader")
-                .audience("progetto-cookbook")
-                .customClaim("customClaim")
-                .ttlMillis(Long.valueOf(3600 * 1000))
-                .build());
+        String userStr = readFile("user.json");
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class DocumentController implements DocumentoApi {
+public class DocumentoController implements DocumentoApi {
 
     private final DocumentoService documentServices;
 

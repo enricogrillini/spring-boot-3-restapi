@@ -70,5 +70,5 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         return list;
     }
-    
+
 }

@@ -42,7 +42,6 @@ class SecurityControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(userStr))
                 .andReturn();
-
         // Verifico lo stato della risposta
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
 

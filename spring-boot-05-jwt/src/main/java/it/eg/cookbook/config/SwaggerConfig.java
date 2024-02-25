@@ -10,12 +10,12 @@ public class SwaggerConfig {
     @Bean
     GroupedOpenApi securityGroup() {
         return GroupedOpenApi.builder().group("security")
-                .pathsToMatch("/api/v1/security/**").build();
+                .pathsToMatch("/security/**").build();
     }
 
     @Bean
     GroupedOpenApi documentGroup() {
-        return GroupedOpenApi.builder().group("document")
-                .pathsToMatch("/api/v1/document/**").build();
+        return GroupedOpenApi.builder().group("documento")
+                .pathsToMatch("/documento/**").build();
     }
 }

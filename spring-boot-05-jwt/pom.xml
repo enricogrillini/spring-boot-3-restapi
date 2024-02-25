@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.eg.cookbook.spring-boot-restapi</groupId>
-    <artifactId>spring-boot-rest-api-5</artifactId>
+    <artifactId>spring-boot-rest-api-6</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
@@ -13,14 +13,19 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
 
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.3.0</springdoc.version>
         <lombok.version>1.18.30</lombok.version>
+
+        <!-- Open api -->
+        <openapitools.version>7.3.0</openapitools.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.2</version>
     </parent>
 
     <dependencies>
@@ -38,6 +43,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -74,6 +80,14 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Utility -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.15.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
