@@ -38,7 +38,7 @@ Tra gli aspetti indirizzati:
 
 ```shell
 # getDocuments 
-curl "http://localhost:8080/document" -s
+curl -X 'GET' 'http://localhost:8080/documento' -s
 
 # getDocuments 
 curl "http://localhost:8080/document/1" -s
