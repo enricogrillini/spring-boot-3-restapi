@@ -22,7 +22,7 @@ public enum ResponseCode {
         return httpStatus;
     }
 
-    public Message getResponseMessage(String detail) {
+    public Message getMessage(String detail) {
         return new Message(toString(), getDescription(), detail);
     }
 

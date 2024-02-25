@@ -35,7 +35,5 @@ public class Message {
     public void setDetail(String detail) {
         this.detail = detail;
     }
-
-
 }
 
