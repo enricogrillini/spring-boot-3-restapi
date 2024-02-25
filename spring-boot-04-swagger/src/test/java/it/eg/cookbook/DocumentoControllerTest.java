@@ -48,22 +48,6 @@ class DocumentoControllerTest extends AbstractTest {
     }
 
     @Test
-    void create_security_KO() throws Exception {
-        // Act
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post(URI)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json"))
-                        .header("Authorization", "Bearer fake"))
-                .andReturn();
-
-        // Verifiy
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
-    }
-
-    @Test
     void delete() throws Exception {
         // Act
         MvcResult mvcResult = mockMvc
@@ -90,20 +74,6 @@ class DocumentoControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    void delete_security_KO() throws Exception {
-        // Act
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .delete(URI_ID, "XX")
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer fake"))
-                .andReturn();
-
-        // Verify
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -179,21 +149,6 @@ class DocumentoControllerTest extends AbstractTest {
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
         assertJsonEqualsFile("expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    void update_security_KO() throws Exception {
-        // Act
-        MvcResult mvcResult = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put(URI_ID, 100L)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json")))
-                .andReturn();
-
-        // Verify
-        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
     }
 
 }

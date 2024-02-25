@@ -18,9 +18,9 @@ public class DocumentoService implements InitializingBean {
     public void afterPropertiesSet() {
         map = new LinkedHashMap<>();
 
-        save(new Documento().id(1L).nome("Contratto").descrizione("Contratto tra le parti per sottoscrizione conto corrente").data(LocalDate.of(2024, 1, 1)));
-        save(new Documento().id(2L).nome("Recesso").descrizione("Norme per il recesso").data(LocalDate.of(2024, 1, 1)));
-        save(new Documento().id(3L).nome("Appendice").descrizione("Appendice al contratto di sottoscrizione").data(LocalDate.of(2024, 1, 1)));
+        save(new Documento(1L, "Contratto", "Contratto tra le parti per sottoscrizione conto corrente", LocalDate.of(2024, 1, 1)));
+        save(new Documento(2L, "Recesso", "Norme per il recesso", LocalDate.of(2024, 1, 1)));
+        save(new Documento(3L, "Appendice", "Appendice al contratto di sottoscrizione", LocalDate.of(2024, 1, 1)));
     }
 
     public List<Documento> findAll() {
