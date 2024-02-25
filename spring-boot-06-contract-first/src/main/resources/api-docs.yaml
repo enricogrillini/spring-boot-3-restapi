@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Document API
-  description: "Rest API example: Document API"
+  title: Documento API
+  description: "Rest API example: Documento API"
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -9,8 +9,8 @@ servers:
     description: Generated server url
 
 tags:
-  - name: Document
-    description: Rest API - Document CRUD
+  - name: Documento
+    description: Rest API - Documento CRUD
   - name: Security
     description: Rest API - Security
 
@@ -18,13 +18,13 @@ security:
   - bearerAuth: [ ]
 
 paths:
-  /document:
+  /documento:
     get:
       tags:
-        - Document
+        - Documento
       security: [ ]
       summary: Ritorna la lista di documenti
-      operationId: getDocuments
+      operationId: find
       responses:
         "200":
           description: Lista di documenti
@@ -33,51 +33,34 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
-
-    put:
-      tags:
-        - Document
-      summary: Aggiorna un documento
-      operationId: putDocument
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Document'
-        required: true
-      responses:
-        "200":
-          $ref: '#/components/responses/MessageResponse'
-        "400":
-          $ref: '#/components/responses/MessageResponse'
+                  $ref: '#/components/schemas/Documento'
 
     post:
       tags:
-        - Document
+        - Documento
       summary: Aggiunge un documento
-      operationId: postDocument
+      operationId: create
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Documento'
         required: true
       responses:
         "200":
-          $ref: '#/components/responses/MessageResponse'
+          $ref: '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
-  /document/{documentId}:
+  /documento/{id}:
     get:
       tags:
-        - Document
+        - Documento
       security: [ ]
       summary: Ritorna un documento
-      operationId: getDocument
+      operationId: get
       parameters:
-        - name: documentId
+        - name: id
           in: path
           required: true
           schema:
@@ -89,17 +72,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: '#/components/schemas/Documento'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+    put:
+      tags:
+        - Documento
+      summary: Aggiorna un documento
+      operationId: update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Id'
+          required: true
+          description: id soggetto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "200":
+          $ref: '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
     delete:
       tags:
-        - Document
+        - Documento
       summary: Elimina un documento
-      operationId: deleteDocument
+      operationId: delete
       parameters:
-        - name: documentId
+        - name: id
           in: path
           required: true
           schema:
@@ -134,6 +141,13 @@ paths:
 
 components:
   responses:
+    DocumentoResponse:
+      description: Messaggio generico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Documento'
+
     MessageResponse:
       description: Messaggio generico
       content:
@@ -142,33 +156,24 @@ components:
             $ref: '#/components/schemas/Message'
 
   schemas:
-    Document:
+    Documento:
       required:
-        - description
-        - id
-        - name
-        - updateBy
+        - nome
+        - descrizione
       type: object
       properties:
         id:
-          type: integer
-          description: Id
-          format: int64
-        name:
+          $ref: '#/components/schemas/Id'
+        nome:
           type: string
-          description: Name
+          description: Nome
           example: Titolo
-        description:
+        descrizione:
           type: string
-          description: Description
+          description: Descriptione
           example: Descrizione
         data:
-          type: string
-          format: date
-        updateBy:
-          type: string
-          description: Updated by
-          example: writer
+          $ref: '#/components/schemas/Date'
 
     Message:
       required:
@@ -226,9 +231,24 @@ components:
         jwtToken:
           type: string
 
+    #############
+    # TIPI BASE #
+    #############
+    Date:
+      type: string
+      format: date
+      example: '2022-04-22'
+
+    DateTime:
+      type: string
+      format: date-time
+
+    Id:
+      type: integer
+      format: int64
+
   securitySchemes:
     bearerAuth:
       type: http
-      in: header
       scheme: bearer
       bearerFormat: JWT

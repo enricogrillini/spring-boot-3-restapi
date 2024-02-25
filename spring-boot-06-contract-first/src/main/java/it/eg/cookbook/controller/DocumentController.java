@@ -2,7 +2,7 @@ package it.eg.cookbook.controller;
 
 import it.eg.cookbook.error.ApiException;
 import it.eg.cookbook.error.ResponseCode;
-import it.eg.cookbook.model.Document;
+import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.Message;
 import it.eg.cookbook.service.DocumentServices;
 import lombok.RequiredArgsConstructor;
@@ -16,58 +16,46 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class DocumentController implements DocumentApi {
+public class DocumentController implements DocumentoApi {
 
     private final DocumentServices documentServices;
 
     @Override
-    public ResponseEntity<Message> deleteDocument(Long documentId) {
-        if (documentServices.getDocument(documentId) != null) {
-            documentServices.delete(documentId);
-
-            return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento eliminato correttamente"));
-        } else {
-            throw new ApiException(ResponseCode.NOT_FOUND, "Documento non trovato");
+    public ResponseEntity<Documento> create(Documento documento) {
+        if (documento.getId() != null) {
+            throw new ApiException(ResponseCode.BUSINESS_ERROR, "L'id documento non deve essere indicato");
         }
+
+        documentServices.save(documento);
+
+        return ResponseEntity.ok(documentServices.save(documento));
     }
 
     @Override
-    public ResponseEntity<Document> getDocument(Long documentId) {
-        if (documentServices.getDocument(documentId) != null) {
-            return ResponseEntity.ok(documentServices.getDocument(documentId));
-        } else {
-            throw new ApiException(ResponseCode.NOT_FOUND, "Documento non trovato");
-        }
+    public ResponseEntity<Message> delete(Long id) {
+        documentServices.findByIdOrThrow(id);
+        documentServices.delete(id);
+
+        return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento eliminato correttamente"));
     }
 
     @Override
-    public ResponseEntity<List<Document>> getDocuments() {
-        return ResponseEntity.ok(documentServices.getDocuments());
+    public ResponseEntity<List<Documento>> find() {
+        return ResponseEntity.ok(documentServices.findAll());
     }
 
     @Override
-    public ResponseEntity<Message> postDocument(Document document) {
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        if (documentServices.getDocument(document.getId()) == null) {
-            document.setUpdateBy(authentication.getName());
-            documentServices.save(document);
-            return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento inserito correttamente"));
-
-        } else {
-            throw new ApiException(ResponseCode.BUSINESS_ERROR, "Documento già presente");
-        }
+    public ResponseEntity<Documento> get(Long id) {
+        return ResponseEntity.ok(documentServices.findByIdOrThrow(id));
     }
 
     @Override
-    public ResponseEntity<Message> putDocument(Document document) {
-        UsernamePasswordAuthenticationToken authenticationa = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        if (documentServices.getDocument(document.getId()) != null) {
-            document.setUpdateBy(authentication.getName());
-            documentServices.save(document);
-            return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento aggiornato correttamente"));
-        } else {
-            throw new ApiException(ResponseCode.NOT_FOUND, "Documento non trovato");
+    public ResponseEntity<Documento> update(Long id, Documento documento) {
+        if (!id.equals(documento.getId())) {
+            throw new ApiException(ResponseCode.BUSINESS_ERROR, "L'id documento incoerente");
         }
+
+        return ResponseEntity.ok(documentServices.save(documento));
     }
 
 }
