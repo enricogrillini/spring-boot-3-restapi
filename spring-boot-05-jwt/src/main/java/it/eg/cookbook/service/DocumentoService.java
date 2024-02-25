@@ -13,14 +13,16 @@ import java.util.*;
 public class DocumentoService implements InitializingBean {
 
     private Map<Long, Documento> map;
+    private Long nextId;
 
     @Override
     public void afterPropertiesSet() {
         map = new LinkedHashMap<>();
+        nextId = 1L;
 
-        save(new Documento(1L, "Contratto", "Contratto tra le parti per sottoscrizione conto corrente", LocalDate.of(2024, 1, 1)));
-        save(new Documento(2L, "Recesso", "Norme per il recesso", LocalDate.of(2024, 1, 1)));
-        save(new Documento(3L, "Appendice", "Appendice al contratto di sottoscrizione", LocalDate.of(2024, 1, 1)));
+        save(new Documento(null, "Contratto", "Contratto tra le parti per sottoscrizione conto corrente", LocalDate.of(2024, 1, 1)));
+        save(new Documento(null, "Recesso", "Norme per il recesso", LocalDate.of(2024, 1, 1)));
+        save(new Documento(null, "Appendice", "Appendice al contratto di sottoscrizione", LocalDate.of(2024, 1, 1)));
     }
 
     public List<Documento> findAll() {
@@ -41,7 +43,7 @@ public class DocumentoService implements InitializingBean {
 
     public Documento save(Documento documento) {
         if (documento.getId() == null) {
-            documento.setId((long) map.size());
+            documento.setId(nextId++);
         }
 
         map.put(documento.getId(), documento);

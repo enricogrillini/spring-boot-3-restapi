@@ -4,10 +4,10 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -29,7 +29,7 @@ public class AccessLogFilter implements Filter {
         Instant start = Instant.now();
 
         String correlationId = req.getHeader(CORRELATION_ID_NAME);
-        if (StringUtils.isBlank(correlationId)) {
+        if (ObjectUtils.isEmpty(correlationId)) {
             correlationId = generateUniqueCorrelationId();
         }
 
