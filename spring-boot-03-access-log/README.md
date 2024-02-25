@@ -38,17 +38,17 @@ Tra gli aspetti indirizzati:
 
 ```shell
 # getDocuments 
-curl -X 'GET' 'http://localhost:8080/documento' -s
+curl -X GET 'http://localhost:8080/documento' -s
 
 # getDocuments 
-curl "http://localhost:8080/document/1" -s
+curl -X GET "http://localhost:8080/documento/1" -s
 
 # delete 
-curl -X DELETE "http://localhost:8080/document/1" -s
+curl -X DELETE "http://localhost:8080/documento/1" -s
 
 # post
-curl -X POST "http://localhost:8080/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
+curl -X POST "http://localhost:8080/documento" -d "{\"nome\":\"Appendice\",\"descrizione\":\"Appendice 2\"}" -H "accept: application/json" -H "Content-Type: application/json" -s 
 
 # put
-curl -X PUT "http://localhost:8080/document" -d "{\"id\":4,\"name\":\"Appendice\",\"description\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
+curl -X PUT "http://localhost:8080/documento/4" -d "{\"id\":4,\"nome\":\"Appendice\",\"descrizione\":\"Appendice 2 - correzione\"}" -H "accept: application/json" -H "Content-Type: application/json" -s
 ```
