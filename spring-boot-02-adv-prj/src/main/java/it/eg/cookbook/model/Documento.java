@@ -1,33 +1,29 @@
 package it.eg.cookbook.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
-@SuperBuilder
 @NoArgsConstructor
-public class Document {
+@AllArgsConstructor
+public class Documento {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("nome")
+    private String nome;
 
-    @JsonProperty("description")
-    private String description;
+    @JsonProperty("descrizione")
+    private String descrizione;
 
-    @JsonProperty("data")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonProperty("data")
     private LocalDate data;
-
-    @JsonProperty("updateBy")
-    private String updateBy;
-
 }
 
