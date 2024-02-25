@@ -21,7 +21,7 @@ import java.util.List;
 public class DocumentoController implements DocumentoApi {
 
     private final DocumentoMapper documentoMapper;
-    private final DocumentoRepository documentServices;
+    private final DocumentoRepository documentoRepository;
 
     @Override
     public ResponseEntity<Documento> create(Documento documento) {
@@ -33,29 +33,29 @@ public class DocumentoController implements DocumentoApi {
 
         DocumentoEntity documentoEntity = documentoMapper.apiToEntity(documento);
         documentoMapper.updateEntity(documentoEntity, documento, authentication.getName());
-        documentServices.save(documentoEntity);
+        documentoRepository.save(documentoEntity);
 
         return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
     }
 
     @Override
     public ResponseEntity<Message> delete(Long id) {
-        DocumentoEntity documentoEntity = documentServices.findByIdOrThrow(id);
-        documentServices.delete(documentoEntity);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
+        documentoRepository.delete(documentoEntity);
 
         return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento eliminato correttamente"));
     }
 
     @Override
     public ResponseEntity<List<Documento>> find() {
-        Iterable<DocumentoEntity> list = documentServices.findAll();
+        Iterable<DocumentoEntity> list = documentoRepository.findAll();
 
         return ResponseEntity.ok(documentoMapper.listEntityToApi(list));
     }
 
     @Override
     public ResponseEntity<Documento> get(Long id) {
-        DocumentoEntity documentoEntity = documentServices.findByIdOrThrow(id);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
 
         return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
     }
@@ -63,14 +63,14 @@ public class DocumentoController implements DocumentoApi {
     @Override
     public ResponseEntity<Documento> update(Long id, Documento documento) {
         if (!id.equals(documento.getId())) {
-            throw new ApiException(ResponseCode.BUSINESS_ERROR, "L'id documento incoerente");
+            throw new ApiException(ResponseCode.BUSINESS_ERROR, "Id documento incoerente");
         }
 
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        DocumentoEntity documentoEntity = documentServices.findByIdOrThrow(id);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
         documentoMapper.updateEntity(documentoEntity, documento, authentication.getName());
-        documentServices.save(documentoEntity);
+        documentoRepository.save(documentoEntity);
 
         return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
     }

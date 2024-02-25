@@ -1,0 +1,7 @@
+{
+  "issuer": "www.idm.com",
+  "subject": "reader",
+  "audience": "progetto-cookbook",
+  "customClaim": "customClaim",
+  "ttlMillis": 3600000
+}
