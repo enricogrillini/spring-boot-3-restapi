@@ -23,12 +23,11 @@ public enum ResponseCode {
         return httpStatus;
     }
 
-    public Message getResponseMessage(String detail) {
-        return Message.builder()
+    public Message getMessage(String detail) {
+        return new Message()
                 .code(toString())
                 .description(getDescription())
-                .detail(detail)
-                .build();
+                .detail(detail);
     }
 
     ResponseCode(String description, HttpStatus httpStatus) {

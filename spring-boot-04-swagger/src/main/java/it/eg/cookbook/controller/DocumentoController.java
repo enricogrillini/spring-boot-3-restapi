@@ -3,7 +3,6 @@ package it.eg.cookbook.controller;
 import it.eg.cookbook.error.ApiException;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Documento;
-import it.eg.cookbook.model.Message;
 import it.eg.cookbook.service.DocumentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

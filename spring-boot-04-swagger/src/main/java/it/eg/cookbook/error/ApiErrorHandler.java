@@ -15,7 +15,7 @@ public class ApiErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ApiException.class})
     public ResponseEntity<Message> handleApiException(final ApiException ex) {
-        Message messageError = ex.getCode().getResponseMessage(ex.getMessage());
+        Message messageError = ex.getCode().getMessage(ex.getMessage());
 
         log.error(EXCEPTION_MESSAGE_TRAILER, messageError, ex);
         return new ResponseEntity<>(messageError, ex.getCode().getHttpStatus());

@@ -1,8 +1,6 @@
 package it.eg.cookbook;
 
-import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.DocumentoService;
-import it.eg.cookbook.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +22,10 @@ class DocumentoControllerTest extends AbstractTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private JwtService jwtService;
-
-    @Autowired
     private DocumentoService documentoService;
 
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";
-
-    private String mockToken(String user) {
-        return jwtService.createJWT(new User()
-                .issuer("www.idm.com")
-                .subject(user)
-                .audience("progetto-cookbook")
-                .customClaim("customClaim")
-                .ttlMillis(Long.valueOf(3600 * 1000)));
-    }
 
     @BeforeEach
     void init() {
@@ -53,8 +39,7 @@ class DocumentoControllerTest extends AbstractTest {
                 .perform(MockMvcRequestBuilders.post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json"))
-                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                        .content(readFile("mock/Document_new.json")))
                 .andReturn();
 
         // Verify
@@ -84,8 +69,7 @@ class DocumentoControllerTest extends AbstractTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .delete(URI_ID, 1)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verify
@@ -100,8 +84,7 @@ class DocumentoControllerTest extends AbstractTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .delete(URI_ID, 100L)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verify
@@ -129,8 +112,7 @@ class DocumentoControllerTest extends AbstractTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verify
@@ -145,8 +127,7 @@ class DocumentoControllerTest extends AbstractTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_ID, 1)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verify
@@ -160,8 +141,7 @@ class DocumentoControllerTest extends AbstractTest {
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_ID, 100)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
 
         // Verify
@@ -177,8 +157,7 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 2L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_2.json"))
-                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                        .content(readFile("mock/Document_2.json")))
                 .andReturn();
 
         // Verify
@@ -194,8 +173,7 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 100L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_100.json"))
-                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                        .content(readFile("mock/Document_100.json")))
                 .andReturn();
 
         // Verify
