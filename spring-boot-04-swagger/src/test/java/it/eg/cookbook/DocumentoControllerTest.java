@@ -33,7 +33,12 @@ class DocumentoControllerTest extends AbstractTest {
     private static final String URI_ID = "/documento/{id}";
 
     private String mockToken(String user) {
-        return jwtService.createJWT(new User("www.idm.com", user, "progetto-cookbook", "customClaim", Long.valueOf(3600 * 1000)));
+        return jwtService.createJWT(new User()
+                .issuer("www.idm.com")
+                .subject(user)
+                .audience("progetto-cookbook")
+                .customClaim("customClaim")
+                .ttlMillis(Long.valueOf(3600 * 1000)));
     }
 
     @BeforeEach

@@ -24,10 +24,7 @@ public enum ResponseCode {
     }
 
     public Message getMessage(String detail) {
-        return new Message()
-                .code(toString())
-                .description(getDescription())
-                .detail(detail);
+        return new Message(toString(), getDescription(), detail);
     }
 
     ResponseCode(String description, HttpStatus httpStatus) {
