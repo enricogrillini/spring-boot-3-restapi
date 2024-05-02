@@ -27,13 +27,7 @@ paths:
       operationId: find
       responses:
         "200":
-          description: Lista di documenti
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Documento'
+          $ref: '#/components/responses/DocumentoListResponse'
 
     post:
       tags:
@@ -68,11 +62,7 @@ paths:
             format: int64
       responses:
         "200":
-          description: Documento trovato
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Documento'
+          $ref:  '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -141,8 +131,18 @@ paths:
 
 components:
   responses:
+
+    DocumentoListResponse:
+      description: Lista di documenti
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Documento'
+
     DocumentoResponse:
-      description: Messaggio generico
+      description: Documento
       content:
         application/json:
           schema:

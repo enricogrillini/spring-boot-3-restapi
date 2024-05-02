@@ -13,14 +13,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
 
-        <springdoc.version>2.3.0</springdoc.version>
-        <lombok.version>1.18.30</lombok.version>
+        <springdoc.version>2.5.0</springdoc.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <!-- Open api -->
-        <openapitools.version>7.3.0</openapitools.version>
+        <openapitools.version>7.5.0</openapitools.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-
     </properties>
 
     <parent>
@@ -166,7 +164,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-docs.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/application-swagger.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
@@ -175,6 +173,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <apiPackage>it.eg.cookbook.controller</apiPackage>
                                 <modelPackage>it.eg.cookbook.model</modelPackage>
+                                <useTags>true</useTags>
                                 <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
                         </configuration>
