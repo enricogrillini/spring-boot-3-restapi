@@ -27,7 +27,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/v3/api-docs.yaml",
+            "/v3/application-swagger.yaml",
             "/actuator/**",
     };
 
