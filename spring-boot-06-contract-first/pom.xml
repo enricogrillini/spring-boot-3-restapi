@@ -115,7 +115,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-docs.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/application-swagger.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
