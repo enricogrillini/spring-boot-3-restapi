@@ -1,4 +1,4 @@
-package it.unipol.cookbook.actuator;
+package it.eg.cookbook.actuator;
 
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

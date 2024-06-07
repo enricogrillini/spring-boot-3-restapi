@@ -1,5 +1,4 @@
 -- Create Table Documento
--- Create Table Documento
 Create Table Documento
       (Id integer Not Null,
        Nome character varying(100) Not Null,

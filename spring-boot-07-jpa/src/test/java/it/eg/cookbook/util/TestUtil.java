@@ -1,4 +1,4 @@
-package it.unipol.deploymentcenter.util;
+package it.eg.cookbook.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;

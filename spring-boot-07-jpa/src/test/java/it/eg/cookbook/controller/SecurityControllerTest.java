@@ -1,15 +1,16 @@
-package it.eg.cookbook;
+package it.eg.cookbook.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import it.eg.cookbook.model.Token;
-import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.JwtService;
+import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class SecurityControllerTest extends AbstractTest {
+class SecurityControllerTest {
 
     @Autowired
     JwtService jwtService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,7 +40,7 @@ class SecurityControllerTest extends AbstractTest {
 
     @Test
     void postDocumentTestKOSec() throws Exception {
-        String userStr = readFile("user.json");
+        String userStr = TestUtil.readFile("SecurityControllerTest/user.json");
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
