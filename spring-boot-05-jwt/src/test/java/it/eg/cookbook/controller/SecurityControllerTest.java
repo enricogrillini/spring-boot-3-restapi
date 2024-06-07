@@ -1,4 +1,4 @@
-package it.eg.cookbook;
+package it.eg.cookbook.controller;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

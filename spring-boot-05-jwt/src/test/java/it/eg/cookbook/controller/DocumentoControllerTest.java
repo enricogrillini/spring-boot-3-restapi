@@ -1,4 +1,4 @@
-package it.eg.cookbook;
+package it.eg.cookbook.controller;
 
 import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.DocumentoService;

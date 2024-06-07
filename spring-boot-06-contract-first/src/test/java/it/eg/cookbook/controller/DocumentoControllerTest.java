@@ -3,7 +3,7 @@ package it.eg.cookbook.controller;
 import it.eg.cookbook.model.User;
 import it.eg.cookbook.service.DocumentoService;
 import it.eg.cookbook.service.JwtService;
-import it.eg.cookbook.test.TestUtil;
+import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

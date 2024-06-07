@@ -5,7 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import it.eg.cookbook.model.Token;
 import it.eg.cookbook.service.JwtService;
-import it.eg.cookbook.test.TestUtil;
+import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
