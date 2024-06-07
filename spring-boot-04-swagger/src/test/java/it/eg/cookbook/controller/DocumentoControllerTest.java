@@ -1,6 +1,7 @@
-package it.eg.cookbook;
+package it.eg.cookbook.controller;
 
 import it.eg.cookbook.service.DocumentoService;
+import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class DocumentoControllerTest extends AbstractTest {
+class DocumentoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,12 +40,12 @@ class DocumentoControllerTest extends AbstractTest {
                 .perform(MockMvcRequestBuilders.post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json")))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
     }
 
     @Test
@@ -58,7 +59,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/delete.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete.json", mvcResult.getResponse().getContentAsString());
     }
 
 
@@ -73,7 +74,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -87,7 +88,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/find.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/find.json", mvcResult.getResponse().getContentAsString());
     }
 
 
@@ -102,7 +103,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/get.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -116,7 +117,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/get_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -127,12 +128,12 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 2L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_2.json")))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_2.json")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/update.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -143,12 +144,12 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 100L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_100.json")))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_100.json")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
 }
