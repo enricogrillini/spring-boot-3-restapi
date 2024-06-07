@@ -7,7 +7,6 @@ import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +23,7 @@ import java.security.PublicKey;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -55,7 +55,7 @@ public class JwtService implements InitializingBean {
         pem = pem.replace("-----BEGIN PRIVATE KEY-----", "");
         pem = pem.replace("-----END PRIVATE KEY-----", "");
 
-        privateKey = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(new Base64().decode(pem)));
+        privateKey = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(Base64.getMimeDecoder().decode(pem)));
 
         // PublicKey
         try (InputStream inputStream = publicKeyResource.getInputStream()) {
@@ -70,23 +70,12 @@ public class JwtService implements InitializingBean {
         long nowMillis = System.currentTimeMillis();
 
         // Let's set the JWT Claims
-        return Jwts.builder()
-                .setSubject(user.getSubject())
-                .setIssuer(user.getIssuer())
-                .setAudience(user.getAudience())
-                .claim("customClaim", user.getCustomClaim())
-                .setIssuedAt(new Date(nowMillis))
-                .signWith(privateKey, SignatureAlgorithm.RS256)
-                .setExpiration(new Date(nowMillis + user.getTtlMillis()))
-                .compact();
+        return Jwts.builder().setSubject(user.getSubject()).setIssuer(user.getIssuer()).setAudience(user.getAudience()).claim("customClaim", user.getCustomClaim()).setIssuedAt(new Date(nowMillis)).signWith(privateKey, SignatureAlgorithm.RS256).setExpiration(new Date(nowMillis + user.getTtlMillis())).compact();
     }
 
     public Jws<Claims> parseToken(String token) {
         try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(publicKey)
-                    .build()
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""));
+            return Jwts.parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token.replace(TOKEN_PREFIX, ""));
 
         } catch (ExpiredJwtException exception) {
             log.warn("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
