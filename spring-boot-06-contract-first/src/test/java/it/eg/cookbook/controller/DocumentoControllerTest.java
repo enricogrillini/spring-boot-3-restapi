@@ -1,10 +1,10 @@
-package it.eg.cookbook;
+package it.eg.cookbook.controller;
 
-import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.User;
-import it.eg.cookbook.model.entity.DocumentoEntity;
-import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.service.DocumentoService;
 import it.eg.cookbook.service.JwtService;
+import it.eg.cookbook.test.TestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,14 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
-class DocumentoControllerTest extends AbstractTest {
+class DocumentoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,7 +28,7 @@ class DocumentoControllerTest extends AbstractTest {
     private JwtService jwtService;
 
     @Autowired
-    private DocumentoRepository documentoRepository;
+    private DocumentoService documentoService;
 
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";
@@ -44,6 +42,11 @@ class DocumentoControllerTest extends AbstractTest {
                 .ttlMillis(Long.valueOf(3600 * 1000)));
     }
 
+    @BeforeEach
+    void init() {
+        documentoService.afterPropertiesSet();
+    }
+
     @Test
     void create() throws Exception {
         // Act
@@ -51,17 +54,13 @@ class DocumentoControllerTest extends AbstractTest {
                 .perform(MockMvcRequestBuilders.post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json"))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json"))
                         .header("Authorization", "Bearer " + mockToken("writer-1")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
-
-        Documento documento = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Documento.class);
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(documento.getId());
-        assertEquals("writer-1", documentoEntity.getUpdateBy());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
     }
 
     @Test
@@ -72,7 +71,7 @@ class DocumentoControllerTest extends AbstractTest {
                         .post(URI)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json"))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json"))
                         .header("Authorization", "Bearer fake"))
                 .andReturn();
 
@@ -92,7 +91,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/delete.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete.json", mvcResult.getResponse().getContentAsString());
     }
 
 
@@ -108,7 +107,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -137,7 +136,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/find.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/find.json", mvcResult.getResponse().getContentAsString());
     }
 
 
@@ -153,7 +152,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/get.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -168,7 +167,7 @@ class DocumentoControllerTest extends AbstractTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/get_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -179,16 +178,13 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 2L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_2.json"))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_2.json"))
                         .header("Authorization", "Bearer " + mockToken("writer-1")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/update.json", mvcResult.getResponse().getContentAsString());
-
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(2L);
-        assertEquals("writer-1", documentoEntity.getUpdateBy());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -199,13 +195,13 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 100L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_100.json"))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_100.json"))
                         .header("Authorization", "Bearer " + mockToken("writer-1")))
                 .andReturn();
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        assertJsonEqualsFile("expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -216,7 +212,7 @@ class DocumentoControllerTest extends AbstractTest {
                         .put(URI_ID, 100L)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(readFile("mock/Document_new.json")))
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json")))
                 .andReturn();
 
         // Verify
