@@ -18,10 +18,11 @@ Tra gli aspetti indirizzati:
 - 04
     - Swagger
 - **05**
-    - **Gestione Sicurezza tramite JWT**
-    - **Swagger definizione multipla (document/security)**
+  - **Gestione Sicurezza tramite JWT**
+  - **Swagger definizione multipla (document/security)**
 - 06
-    - Approccio contract first
+  - Approccio contract first
+  - Validation
 - 07*
     - JPA
 

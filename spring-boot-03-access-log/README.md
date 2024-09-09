@@ -23,6 +23,7 @@ Tra gli aspetti indirizzati:
     - Swagger definizione multipla (document/security)
 - 06
     - Approccio contract first
+    - Validation
 - 07*
     - JPA
 

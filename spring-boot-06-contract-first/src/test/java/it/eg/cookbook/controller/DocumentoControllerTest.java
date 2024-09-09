@@ -187,6 +187,24 @@ class DocumentoControllerTest {
         TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse().getContentAsString());
     }
 
+
+    @Test
+    void update_wrongPayload_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put(URI_ID, 2L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_2_wrongPayload.json"))
+                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_wrongPayload_KO.json", mvcResult.getResponse().getContentAsString());
+    }
+
     @Test
     void update_notFound_KO() throws Exception {
         // Act

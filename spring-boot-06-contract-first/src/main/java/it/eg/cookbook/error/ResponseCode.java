@@ -9,6 +9,8 @@ public enum ResponseCode {
     OK("Ok", HttpStatus.OK),
     NOT_FOUND("Non trovato", HttpStatus.NOT_FOUND),
     TOKEN_ERRATO("Non trovato", HttpStatus.FORBIDDEN),
+
+    PAYLOAD_ERROR("Errore in validazione payload", HttpStatus.BAD_REQUEST),
     BUSINESS_ERROR("Errore generico", HttpStatus.BAD_REQUEST),
     SYSTEM_ERROR("Errore di sistema", HttpStatus.INTERNAL_SERVER_ERROR);
 
