@@ -2,6 +2,7 @@ package it.eg.cookbook.error;
 
 import it.eg.cookbook.model.Message;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 
 public enum ResponseCode {
