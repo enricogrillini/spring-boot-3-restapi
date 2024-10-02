@@ -60,7 +60,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse().getContentAsString(), "id");
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse(), "id");
     }
 
     @Test
@@ -91,7 +91,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete.json", mvcResult.getResponse());
     }
 
 
@@ -107,7 +107,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete_notFound_KO.json", mvcResult.getResponse());
     }
 
     @Test
@@ -136,7 +136,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/find.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/find.json", mvcResult.getResponse());
     }
 
 
@@ -152,7 +152,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get.json", mvcResult.getResponse());
     }
 
     @Test
@@ -167,7 +167,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get_notFound_KO.json", mvcResult.getResponse());
     }
 
     @Test
@@ -184,7 +184,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse());
     }
 
 
@@ -202,7 +202,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_wrongPayload_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_wrongPayload_KO.json", mvcResult.getResponse());
     }
 
     @Test
@@ -219,7 +219,7 @@ class DocumentoControllerTest {
 
         // Verify
         assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
-        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_notFound_KO.json", mvcResult.getResponse().getContentAsString());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_notFound_KO.json", mvcResult.getResponse());
     }
 
     @Test

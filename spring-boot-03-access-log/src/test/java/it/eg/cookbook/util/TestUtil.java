@@ -18,6 +18,7 @@ import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +73,11 @@ public abstract class TestUtil {
             fail("File " + readFile + " non leggibile", ex);
             return null;
         }
+    }
+
+    public static void assertJsonEqualsFile(String expectedFileName, MockHttpServletResponse response, String... ignoreFields) {
+        String actualStr = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
+        assertJsonEqualsStr(expectedFileName, readFile(expectedFileName), actualStr, ignoreFields);
     }
 
     public static void assertJsonEqualsFile(String expectedFileName, String actualStr, String... ignoreFields) {
