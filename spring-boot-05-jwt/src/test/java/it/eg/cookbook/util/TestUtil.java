@@ -23,6 +23,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -107,6 +109,30 @@ public abstract class TestUtil {
             log.error(ex.getMessage(), ex);
             fail(ex);
         }
+    }
+
+    public static List<String> getFilesNameFromDirectory(String directoryPath) {
+        List<String> fileNames = new ArrayList<>();
+
+        try {
+            // Ottieni l'elenco di tutti i file nella cartella
+            File folder = new File(String.format("./src/test/resources/json/%s", directoryPath));
+            File[] listOfFiles = folder.listFiles();
+            // Processa ogni file nella cartella
+            if (listOfFiles != null) {
+                for (File file : listOfFiles) {
+                    if (file.isFile()) {
+                        // Aggiungi il nome del file alla lista
+                        fileNames.add(directoryPath + file.getName());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            fail(ex);
+        }
+
+        return fileNames;
     }
 
 
