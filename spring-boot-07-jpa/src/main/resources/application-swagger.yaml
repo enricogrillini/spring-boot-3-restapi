@@ -170,7 +170,7 @@ components:
           example: Titolo
         descrizione:
           type: string
-          description: Descriptione
+          description: Descrizione
           example: Descrizione
         data:
           $ref: '#/components/schemas/Date'
