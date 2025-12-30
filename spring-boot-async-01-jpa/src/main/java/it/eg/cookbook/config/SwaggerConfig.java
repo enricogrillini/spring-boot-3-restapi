@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    GroupedOpenApi securityGroup() {
-        return GroupedOpenApi.builder().group("security")
-                .pathsToMatch("/security/**").build();
-    }
-
-    @Bean
-    GroupedOpenApi documentGroup() {
-        return GroupedOpenApi.builder().group("documento")
-                .pathsToMatch("/documento/**").build();
-    }
+//    @Bean
+//    GroupedOpenApi securityGroup() {
+//        return GroupedOpenApi.builder().group("security")
+//                .pathsToMatch("/security/**").build();
+//    }
+//
+//    @Bean
+//    GroupedOpenApi documentGroup() {
+//        return GroupedOpenApi.builder().group("documento")
+//                .pathsToMatch("/documento/**").build();
+//    }
 }

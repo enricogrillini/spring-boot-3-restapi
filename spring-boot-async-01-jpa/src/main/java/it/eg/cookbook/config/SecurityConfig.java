@@ -26,12 +26,12 @@ public class SecurityConfig {
             "/actuator/**",
     };
 
-    public static final String DOCUMENTO_URI = "/documento/**";
-    public static final String SECURITY_URI = "/security/generate-token";
-
-    public static final String RULE_READER = "READER";
-    public static final String RULE_WRITER = "WRITER";
-    public static final String RULE_ADMIN = "ADMIN";
+//    public static final String DOCUMENTO_URI = "/task/**";
+//    public static final String SECURITY_URI = "/security/generate-token";
+//
+//    public static final String RULE_READER = "READER";
+//    public static final String RULE_WRITER = "WRITER";
+//    public static final String RULE_ADMIN = "ADMIN";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,14 +41,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.GET, DOCUMENTO_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.PUT, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.POST, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
-                        .requestMatchers(HttpMethod.DELETE, DOCUMENTO_URI).hasAuthority(RULE_ADMIN)
-                        .requestMatchers(HttpMethod.POST, SECURITY_URI).permitAll()
+//                        .requestMatchers(HttpMethod.GET, DOCUMENTO_URI).permitAll() //.hasAnyAuthority(RULE_READER, RULE_WRITER, RULE_ADMIN)
+//                        .requestMatchers(HttpMethod.PUT, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+//                        .requestMatchers(HttpMethod.POST, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
+//                        .requestMatchers(HttpMethod.DELETE, DOCUMENTO_URI).hasAuthority(RULE_ADMIN)
+//                        .requestMatchers(HttpMethod.POST, SECURITY_URI).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
                         //All
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

@@ -1,18 +1,12 @@
--- Create Table Documento
-Create Table Documento
-      (Id integer Not Null,
-       Nome character varying(100) Not Null,
-       Descrizione character varying(250) Not Null,
-       Data date Not Null,
-       Update_By character varying(100));
+-- Create Table Job
+Create Table job
+      (id integer Not Null,
+       task_name character varying(100) Not Null,
+       task_detail character varying(250) Not Null,
+       start_date timestamp Not Null,
+       status character varying(100));
 
 -- Primary Key Documento
-Alter Table Documento Add Constraint documento_pk Primary Key (Id);
+Alter Table job Add Constraint job_pk Primary Key (id);
 
-create sequence seq_Id_Documento;
-
-Insert into Documento
-       (Id,                          Nome,        Descrizione,                                                Data,         Update_By)
-Values (nextval('seq_Id_Documento'), 'Contratto', 'Contratto tra le parti per sottoscrizione conto corrente', '2024-01-01', 'writer-a'),
-       (nextval('seq_Id_Documento'), 'Recesso',  'Norme per il recesso',                                      '2024-01-01', 'writer-a'),
-       (nextval('seq_Id_Documento'), 'Appendice',  'Appendice al contratto di sottoscrizione',                '2024-01-01', 'writer-a');
+create sequence seq_Id_job;

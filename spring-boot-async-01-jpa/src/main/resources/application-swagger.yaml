@@ -12,16 +12,13 @@ tags:
   - name: Task
     description: Gestione dei Task
 
-security:
-  - bearerAuth: [ ]
-
 paths:
   /task:
     post:
       tags:
         - Task
       summary: Avvia un Task
-      operationId: create
+      operationId: submitTask
       requestBody:
         content:
           application/json:
@@ -30,7 +27,7 @@ paths:
         required: true
       responses:
         "200":
-          $ref: '#/components/responses/MessageResponse'
+          $ref: '#/components/responses/JobResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -47,12 +44,12 @@ components:
             items:
               $ref: '#/components/schemas/Task'
 
-    TaskResponse:
+    JobResponse:
       description: Task
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Task'
+            $ref: '#/components/schemas/Job'
 
     MessageResponse:
       description: Messaggio generico
@@ -62,18 +59,41 @@ components:
             $ref: '#/components/schemas/Message'
 
   schemas:
+
     Task:
       required:
-        - nome
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Task name
+        detail:
+          type: string
+          description: Task detail
+
+    Job:
+      required:
+        - id
       type: object
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        nome:
+        start-date:
+          $ref: '#/components/schemas/DateTime'
+        task:
+          $ref: '#/components/schemas/Task'
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        result:
           type: string
-          description: Nome
-        data:
-          $ref: '#/components/schemas/Date'
+
+    JobStatus:
+      type: string
+      enum:
+        - RUNNING
+        - COMPLETED
+        - FAILED
 
     Message:
       required:
