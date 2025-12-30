@@ -19,11 +19,15 @@ public class JobEntity {
     @SequenceGenerator(name = "seq_id_job", allocationSize = 1)
     private Long id;
 
-    private String taskName;
-    private String taskDetail;
-
     private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
     private JobStatus status;
+    private String message;
+
+    private String taskName;
+    private String taskDetail;
+
+
 }

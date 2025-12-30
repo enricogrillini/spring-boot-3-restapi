@@ -81,12 +81,14 @@ components:
           $ref: '#/components/schemas/Id'
         start-date:
           $ref: '#/components/schemas/DateTime'
-        task:
-          $ref: '#/components/schemas/Task'
+        end-date:
+          $ref: '#/components/schemas/DateTime'
         status:
           $ref: '#/components/schemas/JobStatus'
-        result:
+        message:
           type: string
+        task:
+          $ref: '#/components/schemas/Task'
 
     JobStatus:
       type: string

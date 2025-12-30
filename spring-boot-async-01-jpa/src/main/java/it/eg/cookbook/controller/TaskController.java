@@ -19,7 +19,6 @@ public class TaskController implements TaskApi {
 
     @Override
     public ResponseEntity<Job> submitTask(Task task) {
-        log.info("ggggggggg");
         return ResponseEntity.ok(taskService.execute(task));
     }
 }
