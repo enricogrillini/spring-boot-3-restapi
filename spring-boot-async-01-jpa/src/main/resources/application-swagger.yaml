@@ -11,6 +11,8 @@ servers:
 tags:
   - name: Task
     description: Gestione dei Task
+  - name: Job
+    description: Gestione dei Job
 
 paths:
   /task:
@@ -28,6 +30,29 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/JobResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+  /job:
+    get:
+      tags:
+        - Job
+      security: [ ]
+      summary: Ritorna la lista dei Job
+      operationId: search
+      parameters:
+        - name: id
+          in: query
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/JobStatus'
+
+      responses:
+        "200":
+          $ref:  '#/components/responses/JobListResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -50,6 +75,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Job'
+
+    JobListResponse:
+      description: Lista di Job
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Job'
 
     MessageResponse:
       description: Messaggio generico

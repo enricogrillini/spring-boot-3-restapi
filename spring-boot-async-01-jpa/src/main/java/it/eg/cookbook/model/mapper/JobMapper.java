@@ -12,6 +12,7 @@ import org.mapstruct.MappingTarget;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @Mapper(componentModel = "spring", imports = {JobStatus.class, LocalDateTime.class})
 public interface JobMapper {
@@ -37,6 +38,7 @@ public interface JobMapper {
     @Mapping(target = "task.detail", source = "taskDetail")
     Job entityToApi(JobEntity jobEntity);
 
+    List<Job> entityToApi(List<JobEntity> jobEntity);
 
     @Mapping(target = "endDate", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "status", expression = "java(jobStatus)")
