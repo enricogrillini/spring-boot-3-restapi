@@ -1,9 +1,8 @@
 package it.eg.cookbook.controller;
 
 import it.eg.cookbook.model.Job;
-import it.eg.cookbook.model.Message;
 import it.eg.cookbook.model.Task;
-import it.eg.cookbook.service.TaskService;
+import it.eg.cookbook.service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TaskController implements TaskApi {
 
-    private final TaskService taskService;
+    private final JobService jobService;
 
     @Override
     public ResponseEntity<Job> submitTask(Task task) {
-        return ResponseEntity.ok(taskService.execute(task));
+        Job job = jobService.createJob(task);
+        jobService.execute(job);
+
+        return ResponseEntity.ok(job);
     }
 }
 

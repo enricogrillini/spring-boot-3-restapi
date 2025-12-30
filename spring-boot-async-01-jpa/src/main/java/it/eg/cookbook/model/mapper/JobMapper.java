@@ -17,9 +17,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", imports = {JobStatus.class, LocalDateTime.class})
 public interface JobMapper {
 
-//    Documento entityToApi(DocumentoEntity entity);
-//
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "startDate", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "endDate", ignore = true)
@@ -32,6 +29,15 @@ public interface JobMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "startDate", source = "startDate")
     @Mapping(target = "endDate", source = "endDate")
+    @Mapping(target = "status", expression = "java(JobStatus.RUNNING)")
+    @Mapping(target = "message", source = "message")
+    @Mapping(target = "taskName", source = "task.name")
+    @Mapping(target = "taskDetail", source = "task.detail")
+    JobEntity apiToEntity(Job job);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "startDate", source = "startDate")
+    @Mapping(target = "endDate", source = "endDate")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "message", source = "message")
     @Mapping(target = "task.name", source = "taskName")
@@ -39,12 +45,6 @@ public interface JobMapper {
     Job entityToApi(JobEntity jobEntity);
 
     List<Job> entityToApi(List<JobEntity> jobEntity);
-
-    @Mapping(target = "endDate", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "status", expression = "java(jobStatus)")
-    @Mapping(target = "message", source = "message")
-    void updateEntity(@MappingTarget JobEntity entity, JobStatus jobStatus, String message);
-
 
     default LocalDateTime offsetDateTimeToLocalDateTime(OffsetDateTime value) {
         return value != null

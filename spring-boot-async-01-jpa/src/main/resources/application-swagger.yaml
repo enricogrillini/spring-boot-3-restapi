@@ -56,6 +56,24 @@ paths:
         "400":
           $ref: '#/components/responses/MessageResponse'
 
+  /job/{id}:
+    post:
+      tags:
+        - Job
+      summary: Riavvia un Job
+      operationId: restartJob
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        "200":
+          $ref: '#/components/responses/JobResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
 
 components:
   responses:
