@@ -1,0 +1,5 @@
+{
+  "code" : "PAYLOAD_ERROR",
+  "description" : "Errore in validazione payload",
+  "detail" : "Validation failed for argument [1] in public org.springframework.http.ResponseEntity<it.eg.cookbook.model.Documento> it.eg.cookbook.controller.DocumentoController.update(java.lang.Long,it.eg.cookbook.model.Documento): [Field error in object 'documento' on field 'nome': rejected value [null]; codes [NotNull.documento.nome,NotNull.nome,NotNull.java.lang.String,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [documento.nome,nome]; arguments []; default message [nome]]; default message [must not be null]] "
+}

@@ -1,0 +1,253 @@
+package it.eg.cookbook.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.eg.cookbook.model.Documento;
+import it.eg.cookbook.model.User;
+import it.eg.cookbook.model.entity.DocumentoEntity;
+import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.service.JwtService;
+import it.eg.cookbook.util.TestUtil;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.nio.charset.StandardCharsets;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+class DocumentoControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private DocumentoRepository documentoRepository;
+
+    private static final String URI = "/documento";
+    private static final String URI_ID = "/documento/{id}";
+
+    private String mockToken(String user) {
+        return jwtService.createJWT(new User()
+                .issuer("www.idm.com")
+                .subject(user)
+                .audience("progetto-cookbook")
+                .customClaim("customClaim")
+                .ttlMillis(Long.valueOf(3600 * 1000)));
+    }
+
+    @Test
+    void create() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders.post(URI)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json"))
+                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse(), "id");
+
+        Documento documento = objectMapper.readValue(new String(mvcResult.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8), Documento.class);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(documento.getId());
+        assertEquals("writer-1", documentoEntity.getUpdateBy());
+    }
+
+    @Test
+    void create_security_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post(URI)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json"))
+                        .header("Authorization", "Bearer fake"))
+                .andReturn();
+
+        // Verifiy
+        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void delete() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete(URI_ID, 1)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete.json", mvcResult.getResponse());
+    }
+
+
+    @Test
+    void delete_notFound_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete(URI_ID, 100L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer " + mockToken("admin-2")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/delete_notFound_KO.json", mvcResult.getResponse());
+    }
+
+    @Test
+    void delete_security_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete(URI_ID, "XX")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer fake"))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
+    }
+
+    @Test
+    void find() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get(URI)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/find.json", mvcResult.getResponse());
+    }
+
+
+    @Test
+    void get() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get(URI_ID, 1)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get.json", mvcResult.getResponse());
+    }
+
+    @Test
+    void get_notFound_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get(URI_ID, 100)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer " + mockToken("reader-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/get_notFound_KO.json", mvcResult.getResponse());
+    }
+
+    @Test
+    void update() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put(URI_ID, 2L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_2.json"))
+                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse());
+
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(2L);
+        assertEquals("writer-1", documentoEntity.getUpdateBy());
+    }
+
+    @Test
+    void update_wrongPayload_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put(URI_ID, 2L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_2_wrongPayload.json"))
+                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.BAD_REQUEST.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_wrongPayload_KO.json", mvcResult.getResponse());
+    }
+
+    @Test
+    void update_notFound_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put(URI_ID, 100L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_100.json"))
+                        .header("Authorization", "Bearer " + mockToken("writer-1")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.NOT_FOUND.value(), mvcResult.getResponse().getStatus());
+        TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update_notFound_KO.json", mvcResult.getResponse());
+    }
+
+    @Test
+    void update_security_KO() throws Exception {
+        // Act
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put(URI_ID, 100L)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.readFile("DocumentoControllerTest/mock/Document_new.json")))
+                .andReturn();
+
+        // Verify
+        assertEquals(HttpStatus.FORBIDDEN.value(), mvcResult.getResponse().getStatus());
+    }
+
+}

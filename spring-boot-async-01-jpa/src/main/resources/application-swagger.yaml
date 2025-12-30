@@ -1,0 +1,111 @@
+openapi: 3.0.1
+info:
+  title: Task API
+  description: "Rest API - Per la gestione di Task Asincroni"
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://localhost:8082
+    description: Generated server url
+
+tags:
+  - name: Task
+    description: Gestione dei Task
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /task:
+    post:
+      tags:
+        - Task
+      summary: Avvia un Task
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        "200":
+          $ref: '#/components/responses/MessageResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+
+components:
+  responses:
+
+    TaskListResponse:
+      description: Lista di Task
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Task'
+
+    TaskResponse:
+      description: Task
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Task'
+
+    MessageResponse:
+      description: Messaggio generico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Message'
+
+  schemas:
+    Task:
+      required:
+        - nome
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nome:
+          type: string
+          description: Nome
+        data:
+          $ref: '#/components/schemas/Date'
+
+    Message:
+      required:
+        - code
+        - description
+      type: object
+      properties:
+        code:
+          type: string
+          description: Codice risposta
+          example: OK
+        description:
+          type: string
+          description: Descrizione
+          example: Operazione eseguita correttamente
+        detail:
+          type: string
+          description: Descrizione dettagliata
+          example: Operazione eseguita correttamente senza avvertimenti
+
+    #############
+    # TIPI BASE #
+    #############
+    Date:
+      type: string
+      format: date
+      example: '2022-04-22'
+
+    DateTime:
+      type: string
+      format: date-time
+
+    Id:
+      type: integer
+      format: int64
