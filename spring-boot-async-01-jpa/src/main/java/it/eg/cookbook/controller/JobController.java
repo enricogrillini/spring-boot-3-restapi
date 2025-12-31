@@ -39,11 +39,17 @@ public class JobController implements JobApi {
         JobEntity jobEntity = jobRepository.findByIdOrThrow(id);
 
         if (jobEntity.getStatus() == JobStatus.FAILED) {
+            Job job = jobService.restartJob(jobEntity.getId());
+            jobService.execute(job);
+
             return ResponseEntity.ok(jobService.restartJob(jobEntity.getId()));
 
         } else if (jobEntity.getStatus() == JobStatus.RUNNING) {
-            if (Duration.between(LocalDateTime.now(), jobEntity.getStartDate()).toMinutes() > 10) {
-                return ResponseEntity.ok(jobService.restartJob(jobEntity.getId()));
+            if (Duration.between(jobEntity.getStartDate(), LocalDateTime.now()).toMinutes() > 10) {
+                Job job = jobService.restartJob(jobEntity.getId());
+                jobService.execute(job);
+
+                return ResponseEntity.ok(job);
 
             } else {
                 throw new ApiException(ResponseCode.BUSINESS_ERROR, "Non è possibile rilanciare un Job in stato RUNNING avviato da meno di 10 minuti");
