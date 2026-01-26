@@ -156,6 +156,21 @@ components:
             $ref: '#/components/schemas/Message'
 
   schemas:
+    Autore:
+      required:
+        - nome
+        - cognome
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nome:
+          type: string
+          description: Nome
+        cognome:
+          type: string
+          description: Cognome
+
     Documento:
       required:
         - nome
@@ -174,6 +189,10 @@ components:
           example: Descrizione
         data:
           $ref: '#/components/schemas/Date'
+        autori:
+          type: array
+          items:
+            $ref: '#/components/schemas/Autore'
 
     Message:
       required:

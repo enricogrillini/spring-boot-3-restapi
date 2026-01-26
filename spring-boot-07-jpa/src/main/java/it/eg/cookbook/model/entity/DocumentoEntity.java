@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +23,12 @@ public class DocumentoEntity {
     private String descrizione;
     private LocalDate data;
     private String updateBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "documento_autore",
+            joinColumns = @JoinColumn(name = "id_documento"),
+            inverseJoinColumns = @JoinColumn(name = "id_autore")
+    )
+    private List<AutoreEntity> autoreEntityList = new ArrayList<>();
 }

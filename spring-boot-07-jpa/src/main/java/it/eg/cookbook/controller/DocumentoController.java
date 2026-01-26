@@ -50,7 +50,7 @@ public class DocumentoController implements DocumentoApi {
     public ResponseEntity<List<Documento>> find() {
         Iterable<DocumentoEntity> list = documentoRepository.findAll();
 
-        return ResponseEntity.ok(documentoMapper.listEntityToApi(list));
+        return ResponseEntity.ok(documentoMapper.listEntityToApiDocumento(list));
     }
 
     @Override
