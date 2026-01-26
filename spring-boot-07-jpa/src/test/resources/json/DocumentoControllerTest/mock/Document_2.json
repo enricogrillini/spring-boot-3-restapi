@@ -2,5 +2,12 @@
   "id" : 2,
   "nome" : "Recesso",
   "descrizione" : "Norme per il recesso bis",
-  "data" : "2024-01-01"
+  "data" : "2024-01-01",
+  "autori": [
+    {
+      "id": 1,
+      "nome": "Mario",
+      "cognome": "Rossi"
+    }
+  ]
 }

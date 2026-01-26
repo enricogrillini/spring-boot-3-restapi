@@ -24,11 +24,6 @@ public class DocumentoEntity {
     private LocalDate data;
     private String updateBy;
 
-    @ManyToMany
-    @JoinTable(
-            name = "documento_autore",
-            joinColumns = @JoinColumn(name = "id_documento"),
-            inverseJoinColumns = @JoinColumn(name = "id_autore")
-    )
-    private List<AutoreEntity> autoreEntityList = new ArrayList<>();
+    @OneToMany(mappedBy = "documento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DocumentoAutoreEntity> documentoAutoreList = new ArrayList<>();
 }

@@ -24,12 +24,12 @@ create sequence seq_Id_Autore;
 
 -- Create Table Documento_Autore
 Create Table Documento_Autore
-      (Id_Documento_Autore integer Not Null,
+      (Id integer Not Null,
        Id_Documento integer Not Null,
        Id_Autore integer Not Null);
 
 -- Primary Key Documento
-Alter Table Documento_Autore Add Constraint Documento_Autore_pk Primary Key (Id_Documento_Autore);
+Alter Table Documento_Autore Add Constraint Documento_Autore_pk Primary Key (Id);
 Alter Table Documento_Autore Add Constraint Documento_Autore_fk1 Foreign Key (Id_Documento) References Documento;
 Alter Table Documento_Autore Add Constraint Documento_Autore_fk2 Foreign Key (Id_Autore) References Autore;
 Alter Table Documento_Autore Add Constraint Documento_Autore_uk1 Unique (Id_Documento, Id_Autore);
@@ -50,5 +50,6 @@ Values (nextval('seq_Id_Autore'),    'Mario',     'Rossi'),
        (nextval('seq_Id_Autore'),    'Ugo',       'Bianchi');
 
 Insert into Documento_Autore
-       (Id_Documento_Autore,                 Id_Documento,    Id_Autore)
-Values (nextval('seq_Id_Documento_Autore'),  1,               1);
+       (Id,                                  Id_Documento,    Id_Autore)
+Values (nextval('seq_Id_Documento_Autore'),  1,               1),
+       (nextval('seq_Id_Documento_Autore'),  2,               2);
